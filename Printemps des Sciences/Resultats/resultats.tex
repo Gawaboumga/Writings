@@ -1,0 +1,93 @@
+\chapter{Résultats et interprétation}
+
+\section{Introduction}
+
+Dans cette partie, nous allons nous intéresser aux résultats obtenus avec la technique que nous avons employée ainsi qu'aux méthodes d'expérimentation afin de s'assurer de la validité du système.
+
+Il existe trois grandes familles de tests:
+\begin{itemize}
+    \item Hors ligne: Souvent la méthode la plus simple et la moins onéreuse, elle consiste, sur la base d'un ensemble de données, à créer un protocole qui permet d'estimer la pertinence des résultats ainsi que ses performances.
+    \item Études sur une population: Cette technique consiste à utiliser le système de recommandations sur une (petite) population d'utilisateurs et de leur demander leur avis au travers de questionnaires sur leurs ressentis.
+    \item En ligne: On peut mener des expériences à large échelle sur un public qui a conscience d'être analysé (Youtube).
+\end{itemize}
+
+Dans ce travail, nous n'aborderons qu'un seul de ces aspects, celui de l'expérimentation sur les données mêmes. Les autres aspects ayant davantage attrait à la sociologie.
+
+\section{Protocole de tests} \label{section:Test}
+
+\subsection{Mais qu'est-ce qu'une expérimentation ?}
+
+`` Méthode scientifique exigeant l'emploi systématique de l'expérience afin de vérifier les hypothèses avancées et d'acquérir des connaissances positives dans les sciences expérimentales. '' \cite{ATILF}
+
+Dans cette définition, nous décelons plusieurs éléments clefs. Nous avons tout d'abord la notion d'hypothèse, qui doit être précise mais concise  et nous devons fournir une expérience capable de tester cette proposition. Nous avons également la notion de répétabilité ainsi que celle de conclusion. Il existe d'autres concepts qui lui sont liés, le fait d'avoir des variables que l'on peut \textit{mesurer}. Sous une hypothèse, il est important que les variables non testées restent constantes afin de ne pas compromettre l'expérience. Exemple: Comparer l'algorithme A et B mais sur des ensembles différents. Finalement, nous devons faire très attention aux conclusions que nous pouvons en tirer. Généraliser des résultats ne se fait jamais à la légère, il faut vérifier qu'ils soient cohérents ou sur différentes données vérifiant les mêmes hypothèses.
+
+\subsection{Expérimentation hors ligne}
+
+Dans les expérimentations hors ligne, nous ne travaillons que sur des données, celles-ci peuvent être brutes et utilisées par nos algorithmes ou bien déjà travaillées avec des profils préexistants. Nous allons essayer de simuler le comportement de l'utilisateur ou les résultats qui peuvent lui être proposés.
+
+Le grand avantage de cette technique est quelle ne requière pas d'interactions avec les utilisateurs et permet donc de tester beaucoup d'algorithmes à moindres coûts. Malheureusement, on ne pourra jamais mesurer l'interaction qu'à ce système sur les utilisateurs et ne permettra que de répondre à des questions purement quantifiables.
+Cette technique d'expérimentation n'est pratiquement utilisée que pour comparer les résultats des algorithmes. Il est donc préférable que l'ensemble des données de test corresponde au problème réel.
+
+\subsection{Outils statistiques}
+
+Afin de départager les différentes techniques mises en œuvre, on cherche à déterminer des outils qui nous permettent de quantifier la précision des recommandations proposées. Il faut garder en tête que la qualité n'est pas signe de pertinence.
+
+Les deux outils les plus souvent utilisés pour mesurer les prédictions sont la racine de l'erreur moyenne \textit{Root-Mean-Square Deviation/Error} et l'erreur absolue moyenne \textit{Mean Absolute Deviation/Error}. Ici $\hat{r}_{ui}$ est la prédiction pour l'ensemble de test $T$ avec les pairs utilisateur-objet $(u, i)$ et la solution supposée $r_{ui}$.
+
+$$ RMSE = \sqrt{\frac{1}{|T|}\sum\limits_{(u, i) \in T} (\hat{r}_{ui} - r_{ui})^2} ~~~~ MAE = \sqrt{\frac{1}{|T|}\sum\limits_{(u, i) \in T} |\hat{r}_{ui} - r_{ui}|}$$
+
+Les deux outils possèdent leurs qualités et inconvénients, la différence fondamentale est la dépendance dans la grandeur de l'erreur. Cette sémantique pouvant avoir plus ou moins d'impact en fonction du problème étudié.
+On emploie également des tests croisés ($\chi^{2}$) afin de déterminer la prévision d'utilisation lorsqu'on n'emploie pas un critère mesurable telle que des "étoiles". Ces outils sont préférés lorsque le système de recommandation travaille davantage sur les propositions. On ne s'intéresse donc pas à l'appréciation mais à la capacité de l'objet à être ajouté à la liste de l'utilisateur. L'idée est qu'on possède une liste d'objets choisis par les utilisateurs et on va occulter certains de ces éléments afin de voir si le système est capable de retrouver quels étaient ces objets. Enfin, il suffit de comparer le taux d'erreur réelle et les faux positifs.
+
+Pour cela, il existe différents coefficients qualifiés de "corrélations":
+
+$$ \small{ \textnormal{Matthews Correlation Coefficient} = \frac{TP \times TN - FP \times FN}{\sqrt{(TP + FP)(TP + FN)(TN + FP)(TN + FN)}} } $$
+$$ \small{ \textnormal{Pearson product-moment correlation coefficient} = \rho_{X, Y} = \frac{E[XY] - E[X] E[Y]}{\sqrt{E[X^{2}] - E[X]^{2}} \sqrt{E[Y^{2}] - E[Y]^{2}}} } $$ \\
+
+
+Les autres aspects des systèmes de recommandations sont nettement plus difficiles à tester et nécessite un retour humain. Il existe également des problèmes pratiquement impossibles à résoudre, on peut citer: le problème du démarrage à froid, la confiance dans le système et les actions "normales" des utilisateurs, la nouveauté et la sérendipité, le risque, l'utilité, l'intimité du résultat, ...
+
+\section{Nos tests}
+
+Dans notre cas, nous avons simplement tiré des recettes aléatoirement dans notre base de données (5\% de l'ensemble, soit $\pm$ 500 recettes). Pour chacune d'entre elles, nous avons considéré chacun des ingrédients et pris le résultat de notre système de recommandations pour chacun d'eux. Nous avons alors regardé quels étaient ceux présents dans la recette et pondéré le résultat par la position occupée dans la liste des recommandations (son poids est inversément proportionnel à sa position dans la liste des recommandations).
+Nous avons également testé les relations du second ordre, c'est-à-dire, pour chacune des recommandations qui n'a pas de correspondance dans la recette, nous avons regardé quels sont les ingrédients fortement corrélés ($> 90\%$) et comparé avec la vraie recette pour traiter les cas des synonymes (blanc de poulet, poitrine de poulet, poulet, ...).
+
+\section{Résultats}
+
+Pour le système de recommandations même, nous avons comparé l'usage de différentes pondérations du \textit{TFIDF} sur la matrice des occurrences (en ligne), ainsi que le système de normalisation des lignes dans la matrice $U\Sigma$ (en colonne) et finalement l'importance du nombre de valeurs singulières à garder. \\
+
+\begin{tabular}{|c|c|c|c|c|}
+  \hline
+  & Row Centering & Row Scaling & Z Score & Z Score Mean \\
+  \hline
+  Best Fully Weighted & 12.6 & 13.8 & 19.8 & 19.9 \\
+  Log Smooth & 8.2 & 8.2 & 8.3 & 8.5 \\
+  Nothing & 12.3 & 12.5 & 19.7 & 19.8 \\
+  \hline
+\end{tabular}
+
+$$ $$
+
+Ces résultats du premier ordre ont été obtenus pour le meilleur pourcentage de valeurs singulières à conserver, soit 90\%. On remarquera que les pourcentages sont relativement faibles même si corrects. Il faut avoir en tête que notre base de données connaît beaucoup de synonymes ($\pm 17\%$). Notons également que l'utilisation d'une pondération de type \textit{TFIDF} a peu de sens dans notre cas. En effet, les ingrédients apparaissent généralement qu'une seule fois dans une recette et donc seul le coefficient qui agit sur l'ensemble des données a de l'importance ici.
+
+Enfin, présentons les résultats pour les résultats du second ordre: \\
+
+\begin{tabular}{|c|c|c|c|c|}
+  \hline
+  & Row Centering & Row Scaling & Z Score & Z Score Mean \\
+  \hline
+  Best Fully Weighted & 51.3 & 53.9 & 57.6 & 58.9 \\
+  Log Smooth & 48.9 & 50.1 & 49.9 & 50.5 \\
+  Nothing & 51.3 & 53.1 & 57.7 & 57.2 \\
+  \hline
+\end{tabular}
+
+$$ $$
+
+Les résultats sont nettement meilleurs même s'ils sont loin d'être mirobolants. Peut-être utiliser une autre technique de la décomposition en valeurs singulières pourrait être intéressante (${S}{V}{D}{+}{+}$). L'utilisation de la méthode du \textit{Best Fully Weighted} et du \textit{Z Score Mean} semble conduire aux meilleurs résultats. Bien sûr, tous ces résultats sont à considérer avec des pincettes et nécessiteraient une étude plus approfondie pour voir s'ils correspondent aux réels besoins des utilisateurs.
+Finallement, nous signalerons qu'il aurait été préférable d'utiliser des outils plus adaptés à cette tâche telle que Scikit-learn \cite{SCIKIT}.
+
+\begin{footnotesize}
+\bibliographystyle{ieeetr}
+\bibliography{Resultats/bibliographyResults}
+\end{footnotesize}

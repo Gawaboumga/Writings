@@ -1,0 +1,53 @@
+\documentclass[10pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[numbers, sort]{natbib}
+\usepackage{chapterbib,hyperref,backref}
+\usepackage[margin=0.8in]{geometry}
+\usepackage[francais]{babel}
+\usepackage{listings}
+\selectlanguage{french} 
+\usepackage[T1]{fontenc}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\begin{document}
+
+% [+] 1ère page
+
+\begin{titlepage}
+    \vspace*{\fill}
+    \begin{center}
+        \huge {Easy Fridge} \\
+	    Systèmes à recommandations \\
+	    \textbf{INFO-F-308}: Printemps des Sciences \\
+	
+	    \Large {HUBAUT Youri, RIGAS Théofanis, VANSPOUWEN Tristan}\\
+        Année académique: 2015 - 2016\\
+	    11 avril 2016 \\
+	      \\
+	      \\
+	    \includegraphics[scale=0.1]{logo_ulb.jpg}
+    \end{center}
+    \vspace*{\fill}
+
+\end{titlepage}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\include{Introduction/introduction}
+
+\include{EtatDeLArt/etatDeLArt}
+
+\include{Methodologie/methodologie}
+
+\include{Resultats/resultats}
+
+\include{Conclusions/conclusions}
+
+\end{document}

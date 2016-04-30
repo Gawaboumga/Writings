@@ -1,0 +1,208 @@
+\chapter{État de l'Art}
+
+\section{Introduction}
+
+Les systèmes de recommandations sont devenus tellement courants ces dernières années dans notre consommation de la toile qu'on ne cesse de les utiliser sans même s'en apercevoir. Que serait Internet sans les moteurs de recherche, les sites de ventes en ligne ou les plateformes multimedias ? Toutes ces pages ont pour point commun de suggérer une liste de propositions basées sur des informations introduites, potentiellement passivement, par l'utilisateur. L'abondance d'information en ligne ainsi que leur caractère dynamique et leur hétérogénéité a rapidement augmenté la difficulté de trouver ce que nous voulons, quand nous en avons besoin et en accord avec nos attentes. Les systèmes de recommandations étudient le profil de l'internaute et tentent de déterminer quelles seront les suggestions les plus pertinentes à lui fournir en fonction du contexte afin d'influencer ces choix. Ils servent de guides personnalisés aux utilisateurs pour les aider à trouver ce qui pourrait les intéresser dans un large choix qui s'offre à eux. Il existe trois grandes familles de techniques pour répondre à ce problème:
+
+La première se base sur une étude du contenu d'un ensemble discret d'éléments. En étudiant les consommations précédentes et les liens qui les unissent, elle tente de proposer de nouveaux objets partageant certaines propriétés.
+
+La deuxième propose une approche fort différente. En effet, un profil est construit en fonction du passé de l'utilisateur mais celui-ci est alors comparé à ceux d'autres consommateurs ayant les mêmes habitudes. L'idée est davantage de créer des classes d'individus qui partagent de mêmes passions.
+
+La troisième met en jeu les deux précédentes techniques en les combinant afin de profiter au maximum des avantages de chacun de ces systèmes. La fusion des deux approches peut s'effectuer de plusieurs manières et offre donc généralement plus de libertés dans la réalisation de l'objectif.
+
+Cet état de l'art est largement inspiré par le livre \textit{Recommender Systems Handbook}, écrit par Francesco Ricci, Lior Rokach, Bracha Shapira et Paul B. Kantor \cite{Ricci210}. Ceux-ci proposent une vision très étendue de tous les aspects qui rentrent en compte dans ce vaste champ de l'informatique. Ainsi que du livre \textit{Recommender Systems: An Introduction}, écrit par Dietmar Jannach, Markus Zanker, Alexander Felfernig et Gerhard Friedrich \cite{jannach2010recommender} faisant preuve de beaucoup de pédagogie.
+
+\section{Data mining}
+
+\subsection{Introduction}
+
+Avant de donner un bref aperçu des différentes techniques utilisées pour réaliser des systèmes de recommandations, il nous a semblé essentiel d'aborder certaines notions liées au \textit{Data Mining} \cite{han2011data}. En effet, ce champ de l'informatique s'intéresse au traitement des données en créant des modèles au travers d'outils tels que les statistiques ou l'intelligence artificielle. L'exploration de données consiste généralement en trois étapes: \textit{Data Processing}, \textit{Data Analysis} et \textit{Result Interpretation} \cite{pyle1999data}.
+
+\subsection{Traitement de l'information} \label{subsec:Data Processing}
+
+Nous commencerons par définir ce que nous entendons par données comme étant un ensemble d'objets possédant certains attributs. La première étape consiste à nettoyer les données initiales du problème afin de ne garder que l'essentiel. Nous nous intéresserons aux grandes techniques utilisées pour les systèmes de recommandations.
+
+\subsubsection{Mesures des distances} \label{subsubsec:Distance Measures}
+
+L'une des notions primordiales afin de déterminer si des objets peuvent être considérés comme étant liés est celle de distance ou de proximité. Outre les notions usuelles de normes $L^{p}$ ($\lVert \overrightarrow{AB} \rVert_{p} = (\sum\limits_{k = 1}^{n} (b_k - a_k)^{p})^{\frac{1}{p}} $), ont été introduites la distance Mahalanobis ($D_{M}(\overrightarrow{AB}) = \sqrt{(b - a) \sigma^{-1} (b - a)^\intercal} $) où $\sigma$ est la matrice des données \cite{mahalanobis1936generalized} ou encore la distance Bhattacharyya ($D_{B}(\overrightarrow{AB}) = -\log{\sum\nolimits_{x \in X} \sqrt{p(x)q(x)}} $) \cite{narendra1977branch}. Seulement, ces distances peuvent être difficiles à calculer et pour des vecteurs épars, nous pouvons utiliser la notion de similarité cosinus avec la définition euclidienne du produit scalaire ($ \cos{\theta} = \frac{A . B}{\lVert A \rVert \lVert B \rVert}$). L'avantage de cette similarité est qu'elle se combine très bien avec le coefficient de corrélation de Pearson ($Pearson(a, b)  = \frac{\sum\nolimits (a, b)}{ \sigma_{a} \sigma_{b}}$) et possède d'autres avantages qui seront vus par la suite \cite{tan2006introduction}.
+
+\subsubsection{Échantillonage}
+
+Collecter des données est une chose mais si cette population devient trop grande, il faut l'échantillonner. L'autre avantage de cette technique est qu'il est plus facile d'entraîner le modèle, au travers d'un choix de paramètres adéquats ou de petites personnalisations dans les algorithmes. Ou encore, tester un ensemble de données afin de s'assurer de l'efficacité du système. La difficulté réside essentiellement dans la manière de sélectionner les éléments représentatifs. Plusieurs heuristiques ont été proposées et généralement la communauté utilise \textit{le principe de Pareto} qui prétend que 80\% des données sont utilisées comme entraînement et 20\% comme test. Bien sûr, cette méthode pourrait entraîner des optimums locaux et nous chercherons donc à faire une validation croisée \cite{kohavi1995study}.
+
+\subsubsection{Réduction de dimensionalité} \label{subsubsec:Dimensionality Reduction}
+
+Il est courant que l'espace dans lequel les systèmes de recommandations travaillent soit épars. De plus, les notions de distance et de densité, pourtant critiques aux notions de proximité, deviennent moins significatives avec les dimensions d'ordre supérieur au travers du phénomène de \textit{Curse of Dimensionality} \cite{bellman1957dynamic}. Il existe deux grandes familles pour réduire en dimensionalité: Principal Component Analysis (PCA) et Singular Value Decomposition (SVD) \cite{koren2009matrix}.
+
+L'analyse de la composante principale consiste à supprimer les termes ayant le moins d'influence sur la variance tout en essayant de rester un maximum significatif. Cependant, cette technique possède de fortes limitations, notamment le fait que l'ensemble des données s'exprime dans une certaine base située au barycentre et que cette distribution des données soit à peu près gaussienne \cite{pearson1901liii}.
+
+La décomposition en valeur singulière est plus récente et consiste à obtenir une matrice contenant toutes les valeurs singulières en décomposant la matrice de données. Il suffit alors de tronquer cette matrice pour diminuer en dimensionnalité. Elle a l'avantage qu'il existe des algorithmes permettant de calculer la décomposition approximative de manière itérative et qu'elle conserve les angles nécessaires à la simularité cosinus \cite{golub1970singular}.
+
+\subsection{Analyse des données}
+
+Maintenant que les bases ont été posées, il ne reste plus que le plus dur à réaliser ! Nous appellerons \textit{classificateur} ce qui permet d'attribuer une classe ou une catégorie à chaque objet (ou individu) à classer, en se basant sur des données statistiques. Et les différentes techniques permettant une classification font partie de la branche de \textit{Machine Learning} appellée \textit{Pattern Recognition}. Nous parlerons de \textit{régression} lors qu'il s'agit du problème inverse, de déterminer si des variables mises ensemble sont liées entre-elles. Il existe énormément de techniques pour résoudre ces problèmes et nous ne présenterons un choix non exhaustif \cite{jain2000statistical}.
+
+\subsubsection{Les k plus proches voisins} \label{subsubsection:(k)-Nearest Neighbours}
+
+Les k-voisins les plus proches ou k-NN est un \textit{Instance-based}, c'est à dire qu'il travaille en stockant des données d'entraînement et les utilise pour déterminer la classe des nouveaux éléments. Comme son nom l'indique, à partir d'un point, l'algorithme va effectuer ses recherches dans son voisinage direct. Il va alors chercher la meilleure classe correspondant à ces caractéristiques. L'idée de l'algorithme consiste à trouver un sous-ensemble de la base d'entraînement qui minimise la distance par rapport au point \cite{CoverHart1967}. La réelle question est combien de voisins faut-il prendre en compte ? Un trop petit nombre et le classificateur sera sensible aux points extrêmes, un trop grand nombre et les voisins pourraient appartenir à trop de classes différentes. Comme il ne construit pas de modèle explicitement, il est qualifié de \textit{lazy learner}. C'est à la fois un avantage et un inconvénient en ce sens que l'idée est très proche du collaborative filtering et qu'il n'a pas de structures à maintenir, ce qui permet de s'adapter rapidement au changement mais au prix de devoir recalculer le voisinage et la matrix de similarité \cite{wilson1972asymptotic}.
+
+\subsubsection{Arbre de décisions}
+
+Comme leur nom l'indique, ce sont des arbres où chaque nœud représente une décision et les feuilles les catégories. Il existe plusieurs algorithmes qui s'appliquent sur ces structures de données: C4.5, CART, ID3, ... \cite{quinlan1986induction}. L'idée consiste généralement à classifier les attributs des données en fonction de leur apport en information au travers de la notion d'entropie, de l'erreur de mauvaise classification ou du coefficient de Gini. Ensuite, nous ajoutons un nœud qui permet de séparer les éléments avec ce même attribut, puis nous répétons cette action sur ces sous-ensembles jusqu'à obtenir des différences tellement faibles que nous les fusionnons toutes dans une même catégorie. L'avantage de cette technique est que l'arbre est très simple à construire et que classifier des éléments inconnus est très rapide. Malheureusement, déterminer un seuil d'arrêt est critique et si trop faible peut mener à des baisses de qualité. Cette technique est également sensible aux valeurs aberrantes et attributs non pertinents. Ils sont plus souvent utilisés pour faire les premières coupes dans l'espace \cite{maimon2005data}.
+
+\subsubsection{Bayes Naïf}
+
+Ce classificateur est basé sur la probabilité conditionnelle et le théorème de Bayes. Chaque attribut et classe est une variable aléatoire et nous cherchons à déterminer la meilleure classe en fonction des attributs précédents ($P(C_{k} | A_{1}, ..., A_{N}) \propto P(C_{k})P(A_{1}, ..., A_{N} |C_{k})$). La seconde expression est plus simple à calculer d'autant plus si nous effectuons la simplification dite \textit{naïve} qui consiste à considérer les attributs comme étant indépendants entre-eux. Nous obtenons donc: $P(A_{1} | C_{k}) ... P(A_{N} | C_{k})$ ce qui devient trivial. L'avantage de cette technique est sa robuste face au bruit et aux attributs non pertinents. Cependant, la simplification effectuée est forte et nous pouvons dès lors utiliser les \textit{Bayesian Belief Networks} (BBN) pour atténuer ces effets, comme les données incomplètes ou les modèles sur-calibrés \cite{friedman1997bayesian}.
+
+\subsubsection{Réseaux neuronaux artificiels}
+
+Les réseaux neuronaux sont des graphes avec des nœuds inter-connectés par des liens pondérés. Le principe consiste à additionner les valeurs d'entrée majorées par le chemin qu'elles empruntent, transformer cette somme par une fonction et comparer le résultat à un seuil. Si celui-ci est atteint, un signal est émis en sortie, sinon, l'information ne transite pas \cite{rosenblatt1958perceptron}. Nous classons les couches de neurones en trois catégories: entrée, caché et sortie. Entrée répond à l'arrivée de données, le caché modifie l'entrée et la sortie génère le résultat. Généralement, les sorties ne sont pas utilisées en amont du flux de transmission. Ces réseaux ont l'avantage de pouvoir effectuer des tâches non-linéaires, de facilement passer à l'échelle et d'être parallélisés et enfin de tolérer des parties défaillantes. Seulement, il est difficile de concevoir la topologie du réseau surtout que celle-ci possède une grande influence sur l'erreur \cite{pazzani1997learning}.
+
+\section{Filtrage sur contenu}
+
+\subsection{Introduction}
+
+Les systèmes de recommandations de type \textit{Content-based} essayent de trouver des objets partageant des similarités avec ceux que l'utilisateur a aimés auparavant. Nous commencerons dans ce chapitre par présenter les concepts de base associés à ces outils. Puis, nous tenterons de déterminer les principaux avantages et inconvénients de cette technique. Enfin, nous présenterons un bref aperçu de l'état de l'art sur la question.
+
+\subsection{Concepts et bases}
+
+Les systèmes de recommandations qui implémentent une approche de type \textit{Content-based} commencent par analyser un ensemble de données liés aux anciennes préférences d'un utilisateur. À partir de ces informations, ils construisent des modèles, ou profils, des intérêts du consommateur basés sur un classement qu'a effectué l'internaute, au travers de notes explicites (étoiles pour une recette) ou implicites (par le biais de la longueur de la recherche, si il se remet à chercher, la solution n'était probablement pas suffisante) \cite{oard1998implicit}. Les profils sont des représentations structurées des intérêts de l'utilisateur, ils servent à recommander des nouveaux objets en comparant les caractéristiques de celui-ci à celles attendues. Bien sûr, tout l'enjeu réside dans la manière de créer ce profil afin qu'il corresponde au mieux aux attentes du consommateur \cite{balabanovic1997fab}.
+
+Tout cela est bien joli mais comment pouvons-nous structurer au mieux notre programme et quelles sont ses principales composantes ? Généralement, on utilise trois grandes étapes pour effectuer des recommandations.
+
+Le \textit{Content Analyzer} s'occupe d'extraire, à partir de données brutes grâce au \textit{preprocessing}$^{[\ref{subsec:Data Processing}]}$, les informations pertinents aux structures de données (les concepts, mots-clefs, ...). Sa principale tâche consiste donc à traduire les entrées en un format qui puisse être utilisé par les prochaines étapes au travers des techniques d'extraction qui transforme l'espace originel dans lequel se décrivent les données en celui cible (par exemple: convertir une page web en dictionnaire inversé $^{[3.3.4]}$). Il fournit les données nécessaires  aux deux prochaines composantes \cite{Ricci210}.
+
+Le \textit{Profile Learner} collecte les données qui représentent les préférences de l'utilisateur et essaye d'interpréter celles-ci. Généralement, on effectue la synthèse grâce à des techniques de \textit{Machine Learning} \cite{michalski2013machine}. C'est ici que les influences des \textit{ranking} interviennent avec les notions de pertinence sans action directe de la part de l'utilisateur.
+
+Enfin, le \textit{Filtering component} exploite les données qui lui sont fournies pour effectuer des propositions d'objets en essayant de faire correspondre le profil de l'utilisateur aux potentielles recommandations. Cette correspondance est généralement évaluée au travers des métriques de similarités$^{[\ref{subsubsec:Distance Measures}]}$. Évidemment, les préférences de l'utilisateur évoluent avec le temps et cette partie doit donc présenter le plus grand potentiel évolutif possible afin d'être toujours le plus proche de l'optimum \cite{prieto2008recommender}.
+
+\subsection{Avantages et incovénients}
+
+Cette approche des systèmes de recommandations propose certains avantages fort intéressants. On peut citer l'indépendance par rapport aux autres utilisateurs, ce qui signifie que le traitement peut être effectué de manière purement locale. La transparence; en effet, on a \textit{officiellement} aucun intérêt à espionner le reste de la population avant de fournir des résultats. La légèreté, peu d'informations doivent être récoltées avant d'être effectif ce qui permet de rajouter des nouveaux objets très facilement au système sans souffrir du manque de notes a contrario des \textit{collaborative filtering} \cite{jannach2010recommender}.
+
+Néanmoins, les inconvénients de cette technique ne sont pas négligeables. En effet, l'analyse du contenu peut être très limitée et donc nécessiter une connaissance du domaine qui va être traité pour être plus efficace. Le manque d'activité de la part de l'utilisateur ou le peu d'interaction avec le système peuvent faire manquer des centres d'intérêts. La sur-spécialisation à la personne et le manque de généralisation peuvent mener à des blocages de résultats (\textit{serendipity}). Enfin, on peut se demander ce qui va se passer lors de l'arrivée d'un nouvel utilisateur dans le système \cite{Ricci210}.
+
+\subsection{État de l'art}
+
+La recherche dans les systèmes de recommandations est le lieu de réunion de divers pans de l'informatique, notamment l'intelligence artificielle ou \textit{Information Retrieval / Filtering}. En effet, ces systèmes sont à la recherche d'informations sur les objets et peuvent se manifester au travers d'une recherche textuelle explicite (Google). Ainsi que le côté d'intelligence artificielle parce qu'ils prennent en comptent le passé pour effectuer des choix et utilisent des techniques liées au \textit{Machine Learning}. Beaucoup de travaux ont été effectuées sur le sujet mais nous n'effectuerons qu'un choix purement arbitraire parmi tous ceux-ci \cite{pazzani2007content}.
+
+\subsubsection{Représentation des objets}
+
+Les informations brutes peuvent contenir des imperfections par l'intermédiaire des mots utilisés par exemple. En effet, les mots peuvent avoir plusieurs paradigmes (polysémie) ou être des synonymes. Il faut donc effectuer une analyse sémantique des termes employés. Heureusement pour nous, ils existent diverses approches possibles. Notamment analyser de manière pure et brute une grande quantité d'informations diverses et variées comme le site web \textit{Wikipedia} afin de déterminer les concepts et leurs champs sémantiques \cite{breese1998empirical}. Une des techniques célèbres pour déterminer l'importance des mots est lié à la notion de:
+
+\paragraph{Modèle d'espace vectoriel des mots-clefs}
+
+Généralement, on emploie la technique du \textit{TF-IDF} (\textit{Term Frequency-Inverse Document Frequency}) dans la représentation spatiale du document appelée Vector Space Model dit \textit{de Salton} \cite{Salton:1975:VSM:361219.361220}. Dans ce modèle, chaque document est représenté par un vecteur de dimension $n$ où chaque composante représente un terme employé avec sa fréquence. Nous définissons l'ensemble des $N$ documents comme étant $D$ avec un vocabulaire $T$, le vecteur associé à un document par $d_{j} = \{ w_{1j}, ..., w_{nj} \}$ où $w_{kj}$ est le nombre d'occurrence du terme $t_{k}$ dans le document $d_{j}$. Ce formalisme ayant été effectué, cette représentation n'est pas suffisante parce qu'il manque la mesure des poids et la notion de similarité. C'est pourquoi, on emploie souvent le \textit{TF-IDF} qui se base sur quelques hypothèses: les termes rares ont beaucoup de poids (\textit{IDF}) s'ils apparaissent rarement (\textit{TF}) tout en ne prenant pas en compte la taille du document \cite{salton1989automatic}.
+Voici une des fameuses fonctions \textit{TF-IDF} parmi tant d'autres:
+
+$$ TF-IDF(t_{k}, d_{j}) = TF(t_{k}, d_{j}) \log \frac{N}{n_{k}} ~~ \text{avec} ~~ TF(t_{k}, d_{j}) = \frac{f_{k, j}}{max_{z}f_{z, j}} $$
+
+Où $n_{k}$ est le nombre de documents qui possèdent le terme $t_{k}$ et où le maximum de la fréquence $t_{z}$ dans le document $d_{j}$. Enfin pour que les vecteurs aient la même norme, on normalise:
+
+$$ w_{k, j} = \frac{ TF-IDF(t_{k}, d_{j}) }{ \sqrt{ \sum\nolimits_{s = 1}^{T} TF-IDF(t_{s}, d_{j})^{2} } } $$
+
+Enfin, pour estimer la similarité, on emploie généralement celle du cosinus. Il suffit donc de tester le lien entre le profil et l'objet considéré \cite{sparck1972statistical}.
+
+$$ sim(d_{i}, d_{j}) = \frac{ \sum\nolimits_{k} w_{ki}w_{kj}}{ \sqrt{ \sum\nolimits_{k} w_{ki}^{2} } \sqrt{ \sum\nolimits_{k} w_{kj}^{2} } } $$
+
+D'autres propositions ont été effectuées sur ce sujet, on parle de Letizia \cite{lieberman1995letizia}, Personal WebWatcher \cite{mladenic1999machine}, Syskill \& Webert \cite{pazzani1996syskill}, du livre \textit{Recommender Systems Handbook} \cite{Ricci210} et dans l'article \textit{Content based recommendation systems} \cite{pazzani2007content}.
+
+\subsubsection{Apprentissages des profils}
+
+L'idée principale dans les méthodes de \textit{Machine Learning} est de déduire des profils à partir d'informations grâce à une phase d'entraînement afin d'être ainsi capable de déterminer si un objet correspond aux besoins de l'utilisateur ou non. Cela revient à créer un classificateur.
+
+\paragraph{Bayes Naïf}
+
+Nous cherchons à déterminer la probabilité que le document $d$ appartienne à la composante $c$ ($P(c|d)$) et chaque composante est paramétrée par un sous-ensemble disjoint $\theta$ qui intervient dans la génération des documents. Seulement, cela peut s'avérer fort complexe et on peut utiliser la propriété de Bayes. Nous obtenons $P(c)P(d|c)$ car $P(d)$ est le même pour toutes les classes. On tombe sur $P(d_{i}|\theta) = \sum\nolimits_{j=1}^{|C|}P(c_{j}|\theta)P(d_{i}|c_{j};\theta)$. On effectue alors l'hypothèse d'indépendance des classes et on peut utiliser le modèle \textit{multivariate Bernouilli} ou celui \textit{multinomial} \cite{mccallum1998comparison}. Dans le cas multinomial, on tombe sur:
+
+$$ P(d_{i}|c_{j}; \theta) = P(|d_{i}|)|d_{i}|!\prod\limits_{t=1}^{|V|}\frac{P(w_{t}|c{j}; \theta)^{N_{it}}}{N_{it}!} $$
+
+Avec le vocabulaire $V$, le nombre $t$ de fois qu'apparaît le mot $w$ et $N_{it}$ le nombre de $w_{t}$ dans $d_{i}$. Et avec l'estimation optimale de Bayes:
+
+$$ \theta_{w_{t}|c_{j}} = P(w_{t}|c_{j}; \theta_{j} ) = \frac{1 + \sum\nolimits_{i=1}^{|D|}N_{it}P(c_{j}|d_{i})}{|V| + \sum\nolimits_{s=1}^{|V|}\sum\nolimits_{i=1}^{|D|}N_{is}P(c_{j}|d_{i})} $$
+
+\paragraph{Pertinence du retour et algorithm de Rocchio}
+
+Les méthodes de \textit{Relevance Feedback} tentent d'améliorer les recherches en se basant sur celles précédentes. C'est dans ce but que l'algorithme de Rocchio a été proposé. Il consiste à modifier la demande en pondérant différemment les éléments en fonction de leur pertinence. Voici la formule en question un peu modifiée \cite{rocchio1971relevance}:
+
+$$ Q_{i+1} = \alpha Q_{i} + \beta \sum\limits_{rel}\frac{D_{i}}{|D_{i}|} - \gamma \sum\limits_{nonrel}\frac{D_{i}}{|D_{i}|} $$
+
+L'idée est de réorienter le vecteur de recherche dans l'espace afin de découvrir de nouvelles régions en effectuant une combinaison linéaire sur les vecteurs des documents. Attention, ni la convergence, ni la performance n'est garantie par cette méthode.
+
+\section{Collaborative filtering}
+
+\subsection{Introduction}
+
+En opposition aux méthodes qualifiées de \textit{Content-based} qui utilisent les caractéristiques des objets précédemment évalués par l'utilisateur, l'approche \textit{Collaborative filtering} se base sur l'idée que si une personne a émis les mêmes avis sur les mêmes produits qu'un autre, alors il est probable que ces individus partagent les mêmes goûts et donc que les propositions puissent être partagées. On distingue deux grandes sous-catégories, les méthodes \textit{Neighbourhood} et \textit{Model-based} \cite{adomavicius2005toward}.
+
+\subsection{Avantages et inconvénients}
+
+Ces techniques possèdent certaines limitations parce qu'elles peuvent recommander des objets qui sont interdits dans certains pays. Elles ne se basent uniquement que sur les notes des produits et non leurs qualités. Elles ont dû mal à gérer les nouveaux produits non évalués. Elles sont sujettes à des tentatives de triche avec des personnes essayant de profiter du système. Elles sont également par essence liées à une connexion Internet.
+Mais cette approche permet d'obtenir des objets dans plusieurs catégories sans se retrouver coincé dans des systèmes sur-calibrés. Elle permet de gérer très facilement l'arrivée de nouveaux acteurs \cite{herlocker2004evaluating}.
+
+\subsection{Approches locales}
+
+Dans ces approches, les notes d'un utilisateur pour un objet sont directement stockées dans le système et utilisées pour effectuer les prédictions. Elles se subdivisent encore en \textit{User-based} comme dans GroupLens \cite{konstan1997grouplens} et Ringo \cite{shardanand1995social} et en \textit{Item-based}, beaucoup plus vaste. Les avantages de ces approches sont leur aspect intuitif et justifiable, les performances et la stabilité.
+
+Pour trouver les voisins, on peut employer la technique du \textit{k-NN}$^{[\ref{subsubsection:(k)-Nearest Neighbours}]}$ mais on peut se poser la question d'effectuer un choix de classificateur ou de régression. Bien sûr, la proximité entre les objets ou les personnes peut également être débattue. Cette décision, souvent importante, doit s'effectuer selon certains critères comme la précision et l'efficacité (s'il y a plus d'objets que d'utilisateurs), la stabilité (qui est le plus évolutif), le pouvoir justificatif (qui donnerait avantage aux objets) ou la sérendipité (qui donnerait avantage aux utilisateurs) \cite{wang2006unifying}.
+
+\paragraph{Normalisation du classement}
+
+Il est généralement préférable que l'on puisse comparer des choses comparables entre-elles. Notamment les notes attribuées, il existe deux grandes techniques, le \textit{Mean centering}, normalisation pure et dure \cite{konstan1997grouplens} et le \textit{Z-score} qui prend en compte la variance \cite{breese1998empirical}.
+
+\paragraph{Calcul de la similarité du poids}
+
+Dans la même optique, on peut équilibrer plus ou moins les recommandations en fonction de la confiance qu'on a dans le système au travers de celle des notes ou des voisins. Bien choisir la méthode est important car elle impacte fortement la précision et la performance du système. Outre la méthode classique de la similarité cosinus$^{[\ref{subsubsec:Distance Measures}]}$, il existe la \textit{Mean Squared Difference} ou la \textit{Spearman Rank Correlation}\cite{iman1982distribution}.
+
+\paragraph{Sélection voisine}
+
+Généralement, on effectue deux étapes afin de déterminer le voisinage, on garde ceux qui ont l'air de convenir dans tout l'ensemble et dans ceux-ci, on évalue les prédictions. Le choix du nombre de voisins est très ardu, trop peu et les résultats seront trop sensibles aux valeurs aberrantes et un excès pourrait induire un affaiblissement des liens avec la cible. On prend généralement un nombre entre 20 et 50 \cite{breese1998empirical, good1999combining}.
+
+\subsection{État de l'art}
+
+Énormément de techniques et d'approches ont été proposées pour résoudre certains des problèmes liés à la méthode \textit{Collaborative Filtering}, nous ne ferons que nommer certaines de ces tactiques parmi une multitude de techniques.
+
+Les modèles à factorisation de matrices ont gagné en popularité ces derniers temps grâce à leur précision et leur mise à l'échelle. Outre, la méthode dite SVD$^{[\ref{subsubsec:Dimensionality Reduction}]}$, il existe la SVD++ ou la \textit{Probabilistic Matrix Factorization} \cite{koren2009matrix}. On signale également les modèles au courant du temps \cite{koren2010collaborative}.
+
+D'autres procédés peuvent être découverts dans \textit{Recommender systems handbook} \cite{Ricci210}, \textit{Item-based collaborative filtering} \cite{sarwar2001item} ou encore \textit{Recommender systems survey} \cite{bobadilla2013recommender}.
+
+\section{Hybrid}
+
+\subsection{Introduction}
+
+Nous l'avons vu, les méthodes collaboratives et basées sur le contenu sont différentes, elles ne partagent ni les mêmes avantages ni les mêmes inconvénients. Il est donc logique qu'on ait essayé de les combiner en profitant de certaines caractéristiques de l'une et en comblant les lacunes par l'autre. Par exemple, les \textit{collaborative filtering} souffre d'un problème lié aux nouveaux produits à cause de leur manque de notes, mais les \textit{content-based} savent se débrouiller uniquement sur base de la description des biens. Elles ne souffrent donc pas de l'ajout de nouveaux produits, par contre elles souffrent de l'émergence de nouveaux utilisateurs, ... \cite{burke2007hybrid}.
+
+\subsection{Techniques de recommandation}
+
+Il faut garder à l'esprit qu'on décrit généralement deux grandes familles de systèmes de recommandations, mais ce serait oublié les \textit{Demographic}, \textit{Utility-based} ou \textit{Knowledge-based}. L'idée principale est de combiner des systèmes de recommandations différents afin de bénéficier d'un gain en performances et de limiter les désavantages de chacun des procédés \cite{pazzani2007content}.
+
+\subsection{Hybridation}
+
+Mais comment fait-on pour combiner des systèmes de recommandations me direz-vous ? Et bien comme d'habitude, plusieurs techniques sont disponibles:
+
+\paragraph{Pondération}
+
+L'idée est relativement triviale, nous avons plusieurs méthodes de recommandations, pourquoi ne pas simplement les combiner ! \textit{P-Tango system} \cite{claypool1999combining} propose de faire une combinaison linéaire et d'ajuster les paramètres en fonction du retour des utilisateurs par le biais des notes.
+
+\paragraph{Changement}
+
+Selon des critères bien déterminés, le programme préférera utiliser un système de recommandations à un autre. C'est le cas pour \textit{DailyLearner} \cite{billsus2000user} sans pour autant règler les problèmes intrinsèques de ces méthodes.
+
+\paragraph{Mixage}
+
+Cela concerne davantage la représentation de la solution avec une combinaison des éléments des différents systèmes.
+Par exemple, les solutions locales ou \textit{content-based} à la suite des recommandations collaboratives.
+C'est le cas pour \textit{PTV-systems} \cite{smyth2000personalised}.
+
+Bien sûr, nous n'oublierons pas de citer les techniques de combinaisons de fonctionnalité \cite{basu1998recommendation}, de cascade \cite{burke2002hybrid}, d'augmentation \cite{mooney2000content, konstan1997grouplens} et de meta-level \cite{balabanovic1997fab}.
+
+\section{Conclusion}
+
+Nous l'avons vu, les systèmes de recommandations sont un grand pan de l'informatique et beaucoup de littérature a été écrite sur ce sujet. Nous espérons toute fois avoir su faire percevoir les difficultés et les manières d'aborder les problèmes liés à ces techniques. Nous espérons également que vous vous passionnerez pour ce champ et irez chercher plus loin tant le nombre de techniques et de sciences impliquées est grand.
+
+Bien sûr, nous n'avons pas aborder d'autres problématiques telles que la manière de tester de telles techniques, comment comparer les performances, comment les entraîner et les faire évoluer, ...
+
+\begin{footnotesize}
+\bibliographystyle{ieeetr}
+\bibliography{EtatDeLArt/bibliographyStateOfArt}
+\end{footnotesize}
