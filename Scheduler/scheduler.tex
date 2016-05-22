@@ -4,12 +4,21 @@
 \usepackage{natbib, alifexi}
 \usepackage[francais]{babel}
 \usepackage{datetime}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
 
-\title{Ordonnancement dans la famille Linux : État de l'art}
-\date{15 mai 2016}
-\author{Youri Hubaut}
+\title{Ordonnancement dans la famille Linux : État de l'art \\
+INFO-F-308}
+\author{Youri Hubaut \\
+\mbox{23 mai 2016}\\
+youri.hubaut@ulb.ac.be}
 
 \begin{document}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\cfoot{\thepage}
 
 \maketitle
 
@@ -23,10 +32,10 @@ En tant qu'une des parties principales de la gestion des ressources, les ordonna
 
 Mais qu'est-ce que l'ordonnancement? Eswaran, Gray, Lorie et Traiger \citep{Eswaran:1976:NPC:360363.360369} tentent de définir ce concept comme étant le processus de répartition d'un ensemble de transactions entre différents acteurs. Ces transactions se décomposent en séquences d'étapes visant à accomplir divers travaux. De manière plus générale, on qualifie d'ordonnanceur tout programme visant à partager le travail entre les différentes ressources et acteurs tout en déterminant l'ordre dans lequel celles-ci seront attribuées.
 
-Ce terme est relativement large et englobe plusieurs paradigmes. Généralement, il tend à désigner la gestion des différents processus dans des systèmes d'exploitations multitâches. On qualifie un système d'exploitation de multitâche, si celui-ci peut interlacer "simultanément" l'exécution de plusieurs processus. Cela donne, sur des machines avec un seul processeur, l'illusion que de multiples programmes s'exécutent simultanément. On utilise également la notion de préemption lorsque les processus ne choisissent pas activement de passer la main \citep{Bach:1986:DUO:8570}. À noter qu'une terminologie \citep{Casavant:1988:TSG:630789.630963} et des classifications \citep{DBLP:journals/tc/WangM85} ont été proposées afin d'y voir un peu plus clair dans cette grande famille.
+Ce terme est relativement large et englobe plusieurs paradigmes. Généralement, il tend à désigner la gestion des différents processus dans des systèmes d'exploitations multitâches. On qualifie un système d'exploitation de multitâche, si celui-ci peut interlacer \og simultanément \fg ~l'exécution de plusieurs processus. Par la suite, nous prendrons pour définition que chaque processus s'occupe de la réalisation d'un ensemble de tâches par le biais de potentiellement plusieurs \textit{threads}. Cela donne, sur des machines avec un seul processeur, l'illusion que de multiples programmes s'exécutent simultanément. On utilise également la notion de préemption lorsque les processus ne choisissent pas activement de passer la main \citep{Bach:1986:DUO:8570}. À noter qu'une terminologie \citep{Casavant:1988:TSG:630789.630963} et des classifications \citep{DBLP:journals/tc/WangM85} ont été proposées afin d'y voir un peu plus clair dans cette grande famille.
 
 Les ordonnanceurs peuvent avoir différents objectifs: maximiser la quantité de travail effectué par unité de temps, minimiser le temps de réponse (le délai qui s'écoule entre le début du travail et son exécution), minimiser la latence (le délai entre son début et sa fin), économiser la batterie ou encore maximiser l'équité (\textit{fairness}) en répartissant les ressources au mieux entre les différents acteurs tout en prenant en compte leurs caractéristiques intrinsèques.
-Ils dépendent égalements des buts visés par l'environnement: job, interactive, ou temps réel \citep{Hansen:1973:OSP:540365}.
+Ils dépendent également des buts visés par l'environnement: job, interactive, ou temps réel \citep{Hansen:1973:OSP:540365}.
 
 En outre, on demande que les ordonnanceurs soient performants et efficaces. Une gestion optimale des ressources afin de faire bénéficier au maximum les utilisateurs sans subir le surcoût associé au système d'ordonnancement lui-même. Généralement, le choix d'ordonnancement est effectué dans quatre cas: lorsqu'un programme se termine, lors d'une interruption E/S, lors d'une barrière implicite ($mutex$) ou encore lorsque le quantum de temps associé expire \citep{Bovet:2005:ULK:1077084}.
 
@@ -34,9 +43,9 @@ On distingue trois grandes familles: les jobs, interactifs et temps réel. Toute
 
 \section{Les types Job}
 
-Les ordonnanceurs de types Job ont un statut un peu particulier. En effet, il existe de très nombreux algorithmes conçus spécialement pour eux \citep{journals/cce/MendezCGHF06}. Toutefois, dans le cas de Linux, l'habitude consiste à créer sa propre grille horaire au travers des logiciels hérités de Unix: \textit{Crontab} pour les tâches récurrentes et les commandes simplifiées \textit{At} pour les ponctuelles et \textit{Batch} pour démarrer le travail directement \citep{x1994x}.
+Les ordonnanceurs de types Job, dédiés aux calculs intensifs, ont un statut un peu particulier. En effet, il existe de très nombreux algorithmes conçus spécialement pour eux \citep{journals/cce/MendezCGHF06}. Toutefois, dans le cas de Linux, l'habitude consiste à créer sa propre grille horaire au travers des logiciels hérités de Unix: \textit{Crontab} pour les tâches récurrentes et les commandes simplifiées \textit{At} pour les ponctuelles et \textit{Batch} pour démarrer le travail directement \citep{x1994x}.
 
-Il faut signaler que Linux n'est pas un système d'exploitation spécialement conçu pour ce genre de tâches et qu'il est préférable alors d'utiliser des technologies plus adaptées comme celles des \textit{mainframes} ou des \textit{supercomputers} qui peuvent potentiellement utiliser des variantes de Linux \citep{Encyclopedia:2011}.
+Il faut signaler que Linux n'est pas un système d'exploitation spécialement conçu pour ce genre de besoins et qu'il est préférable alors d'utiliser des technologies plus adaptées comme celles des \textit{mainframes} ou des \textit{supercomputers} qui peuvent potentiellement utiliser des variantes de Linux \citep{Encyclopedia:2011}.
 
 \section{Les types interactifs}
 
@@ -44,12 +53,12 @@ Il faut signaler que Linux n'est pas un système d'exploitation spécialement co
 
 Au début, les ordonnanceurs interactifs de Linux se limitaient au respect de la norme \textit{POSIX} qui définit: SCHED\_FIFO, SCHED\_RR, SCHED\_SPORADIC (apparu en 2008, sorte de temps réel) et SCHED\_OTHER (libre à l'implémentation) \citep{6506091}. Et plus précisément, les premières versions de Linux (1.2) semblent utiliser par défaut l'un des algorithmes les plus classiques d'ordonnancement qu'est le \textit{round robin with circular runqueue} \citep{Maxwell:1999:LCK:519502, Beck:1996:LKI:547935}. Les classes d'ordonnancements de \textit{POSIX} ne seront introduites réellement que dans le noyau 2.2 en même temps que le support du SMP \citep{ScalableLinuxScheduling}.
 
-L'algorithme consiste à attribuer un quantum de temps fixe à chaque processus. Celui-ci peut être entièrement consommé ou non, s'il s'arrête ou se bloque. L'ordonnanceur sélectionne alors le processus suivant dans ceux étant prêts à être exécuté, chargés en mémoire et préemptés dans la file. Si aucun n'est éligible, le processeur attend jusqu'à la prochaine interruption \citep{corbato1962experimental}. Le problème est de déterminer un quantum de temps idéal afin que le \textit{context switch} ne soit pas trop pénalisant si le délai est trop court ou pas assez réactif si trop long. En outre, il répond difficilement à la notion de \textit{burst} accordé à des processus qui ne font qu'attendre \citep{Bach:1986:DUO:8570}. Il a l'avantage d'être rapide et relativement simple à implémenter.
+L'algorithme consiste à attribuer un quantum de temps fixe à chaque processus. Celui-ci peut être entièrement consommé ou non, s'il s'arrête ou se bloque. L'ordonnanceur sélectionne alors le processus suivant dans ceux étant prêts à être exécuté, chargés en mémoire et préemptés dans la file. Si aucun n'est éligible, le processeur attend jusqu'à la prochaine interruption \citep{corbato1962experimental}. Le problème est de déterminer un quantum de temps idéal afin que le \textit{context switch} ne soit pas trop pénalisant si le délai est trop court ou pas assez réactif si trop long. En outre, il répond difficilement à la notion de \textit{burst}, temps supplémentaire, accordé à des processus qui ne font qu'attendre \citep{Bach:1986:DUO:8570}. Il a l'avantage d'être rapide et relativement simple à implémenter.
 
 \subsection{$O(n)$}
 
-Utilisé dans les versions 2.4 à 2.6 du noyau Linux, cet ordonnanceur divise le temps processeur en "époque". Dans chacune des ces époques, chaque tâche peut être exécutée jusqu'à la fin de son quantum de temps. Si elle ne l'utilise pas complètement, la moitié du temps restant est reporté pour l'époque suivante. Les processus sont sélectionnés sur base d'une métrique déterminée par l'implémentation et la priorité de chaque tâche exécutable est déterminée lors d'un changement de contexte \citep{Bovet:2005:ULK:1077084}.
-Cet ordonnanceur doit donc l'origine de son nom au fait que chaque priorité associée à un processus est réévaluée lors de l'appel à l'algorithme. Il était donc peu efficace et surtout passait difficilement à l'échelle. Il éprouve des difficultés au-delà de 100 threads actifs \citep{Nieh:2001:VRO:647055.715911}.
+Utilisé dans les versions 2.4 à 2.6 du noyau Linux, cet ordonnanceur divise le temps processeur en \og époque \fg. Dans chacune des ces époques, chaque tâche peut être exécutée jusqu'à la fin de son quantum de temps. Si elle ne l'utilise pas complètement, la moitié du temps restant est reporté pour l'époque suivante. Les processus sont sélectionnés sur base d'une métrique déterminée par l'implémentation et la priorité de chaque tâche exécutable est déterminée lors d'un changement de contexte \citep{Bovet:2005:ULK:1077084}.
+Cet ordonnanceur doit donc l'origine de son nom au fait que chaque priorité associée à un processus est réévaluée lors de l'appel à l'algorithme. Il était donc peu efficace et surtout passait difficilement à l'échelle. Il éprouve des difficultés au-delà de 100 processus actifs \citep{Nieh:2001:VRO:647055.715911}.
 
 \subsection{$O(1)$}
 
@@ -59,13 +68,13 @@ L'algorithme en lui-même consistait en une série de \textit{runqueue} constitu
 
 L'algorithme portera mieux son nom $O(1)$ après le noyau 2.6.8.1 qui utilisera les fameuses \textit{runqueue} de 0 à 140 et des \textit{priority arrays}. Son interactivité sera également amélioré par Con Kolivas \citep{Aas05understandingthe}.
 
-Le problème de cet ordonnanceur est qu'il est souvent difficile de différencier les tâches interactives des non-interactives. En effet, on peut essayer d'identifier les processus interactifs en analysant leur temps moyen d'inactivité (sommeil, attente, ...); ceux ayant un grand temps étant probablement interactifs. Il est alors possible de leur accorder un bonus de priorité, ce qui peut potentiellement déséquilibrer l'équité \citep{4631872}.
+Le problème de cet ordonnanceur est qu'il est souvent difficile de différencier les tâches interactives des non-interactives. En effet, on peut essayer d'identifier les processus interactifs en analysant leur temps moyen d'inactivité; ceux ayant un grand temps étant probablement interactifs. Il est alors possible de leur accorder un bonus de priorité, ce qui peut potentiellement déséquilibrer l'équité \citep{4631872}.
 
 \subsection{CFS}
 
 Enfin, dans le noyau 2.6.23, est incorporé l'implémentation, réalisée par Con Kolivas, de ce qui s'appelait le \textit{Fair-share scheduling} au doux nom de \textit{Rotating Staircase Deadline} et \textit{Staircase Process}, inspiré du \textit{Completely Fair Scheduler} de Molnár \citep{PATCHCFS}.
 
-L'algorithme utilise un arbre rouge-noir pour répartir le temps entre les différentes tâches et stocke le temps effectué par chacun dans les \textit{sched\_entities}, qui sont héritées de \textit{task\_struct} sorte de descripteur de processus, apparu avec le patch pour le nouvel ordonanceur \citep{Pabla:2009:CFS:1594371.1594375}. Ces nœuds sont indexés par le temps d'exécution processeur en nanosecondes. Un temps maximum est également calculé pour chacun des processus et qui est déterminé comme étant celui correspondant à la répartition la plus équitable entre tous les processus. Ce temps est défini comme étant égal au temps attendu avant d'être exécuté divisé par le nombre de processus. En effet, si il y a N processus, chacun devrait obtenir un N$^{e}$ du temps \citep{IllustrationCFSusingAATree}.
+L'algorithme utilise un arbre rouge-noir \citep{lozi2016linux} pour répartir le temps entre les différentes tâches et stocke le temps effectué par chacun dans les \textit{sched\_entities}, qui sont héritées de \textit{task\_struct} sorte de descripteur de processus, apparu avec le patch pour le nouvel ordonanceur \citep{Pabla:2009:CFS:1594371.1594375}. Ces nœuds sont indexés par le temps d'exécution processeur en nanosecondes. Un temps maximum est également calculé pour chacun des processus et qui est déterminé comme étant celui correspondant à la répartition la plus équitable entre tous les processus. Ce temps est défini comme étant égal au temps attendu avant d'être exécuté divisé par le nombre de processus. En effet, s'il y a $N$ processus, chacun devrait obtenir un $N^{e}$ du temps \citep{IllustrationCFSusingAATree}.
 
 Lorsque l'algorithme d'ordonnancement est appelé, ces actions sont effectuées:
 
@@ -76,15 +85,23 @@ Lorsque l'algorithme d'ordonnancement est appelé, ces actions sont effectuées:
 \item Enfin, on recommence la procédure.
 \end{enumerate}
 
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=3.0in]{figure1.png}
+\caption{\og CFS \fg ~ arbre rouge-noir sur le temps d'exécution - image issue de IBM \citep{jones2009inside}.}
+\label{fig1}
+\end{center}
+\end{figure}
+
 Si le processus passe beaucoup de temps à dormir, alors son temps passé est faible et recevra donc automatiquement une augmentation en priorité lorsqu'il en aura besoin. Par conséquent, de telles tâches n'obtiennent pas moins de temps processeur que celles qui fonctionnent continuellement \citep{Wong:2008:TAF:1400097.1400102}.
 
 L'idée du CFS est dérivée du \textit{Weighted Fair Queueing} utilisé par les ordonnanceurs réseau qui s'occupent de la distribution des paquets de données \citep{Demers:1989:ASF:75247.75248}. La conversion vers la gestion des processus s'est effectuée au travers du \textit{stride scheduling}. En effet, celui-ci propose un mécanisme d'ordonnancement des ressources déterministes qui calcule un intervalle de temps ou \textit{stride} pendant lequel chaque client attend et qui est également proportionnel à sa propre consommation des ressources \citep{Waldspurger:1995:LSS:888601}.
 
-Le CFS a reçu un patch en novembre 2010 (2.6.38) pour le rendre plus équitable sur les stations de travail et bureaux, appuyé par des tests de performances effectués plus tôt \citep{7280991}. Sur une idée de Torvalds et les travaux de Galbraith, il regroupe des processus afin de mieux servir les applications multi-thread \citep{Wong:2008:TAF:1400097.1400102}. Depuis, il semble être plus équitable et plus efficace que l'ordonnanceur $O(1)$ \citep{4631872}.
+Le CFS a reçu un patch en novembre 2010 (2.6.38) pour le rendre plus équitable sur les stations de travail et bureaux, appuyé par des tests de performances effectués plus tôt \citep{7280991}. Sur une idée de Torvalds et les travaux de Galbraith, il regroupe des processus afin de mieux servir les applications multi-tâche \citep{Wong:2008:TAF:1400097.1400102}. Depuis, il semble être plus équitable et plus efficace que l'ordonnanceur $O(1)$ \citep{4631872}.
 
 Après la sortie de cet ordonnanceur, il n'y a plus eu de grandes modifications dans le système d'ordonnancement, seulement des corrections et des ajustements.
 
-\subsubsection{BFS:}
+\subsection{BFS:}
 
 Le CFS a eu un petit frère également développé par Con Kolivas et dénommé \textit{Brain Fuck Scheduler} parce que, selon les mots de son créateur, il brise les codes actuels de design en matière de mise à l'échelle. Il a pour but d'être le concurrent du CFS sur des modèles multicœurs \citep{PATCHBFS}. Il n'est pas un ordonnanceur officiel, en ce sens qu'il n'est pas incorporé au noyau Linux \citep{opac-b1133216}. Malgré le fait qu'il offre des meilleurs temps de réaction que le CFS et est parfois plus rapide que celui-ci pour accomplir certaines tâches, il a dû mal à passer à l'échelle ou à fonctionner sur des systèmes à accès mémoire non-uniforme (NUMA). Il est surtout destiné à un usage de type bureautique sur les architectures actuelles \citep{CFSVSBFS}.
 
@@ -92,7 +109,7 @@ Le CFS a eu un petit frère également développé par Con Kolivas et dénommé 
 
 Linux n'est pas un système d'exploitation conçu pour les tâches temps réelles mais propose quand même certaines notions notamment au niveau des ordonnanceurs qualifiés de \textit{Soft real-time} où une tolérance est permise au niveau des échéances. L'idée du temps réel est de diviser le travail en petites tâches prédictibles et connues à l'avance afin de pouvoir quantifier le temps nécessaire à leur réalisation et donc permettre une meilleure prédictabilité. Le but des ordonnanceurs est dès lors de s'assurer que chaque processus puisse respecter ses propres limites temporelles \citep{stankovic2012deadline}.
 
-Il y a également une distinction effectuée entre les tâches dites périodiques et apériodiques qui représentent respectivement des actions étant réalisées de manière récurrente et celles surgissant de manière non prédictible, sporadiques. Dès lors, on peut se demander si les objectifs peuvent être respectés et on établit une condition de faisabilité afin de prouver l'efficacité de cet ordonnanceur \citep{128746}. Énormément de travaux ont été effectués sur ce sujet \citep{Sha:2004:RTS:1028913.1028959}.
+Il y a également une distinction effectuée entre les tâches dites périodiques et apériodiques qui représentent respectivement des actions étant réalisées de manière récurrente et celles surgissant de manière non prédictible, apériodiques. Dès lors, on peut se demander si les objectifs peuvent être respectés et on établit une condition de faisabilité afin de prouver l'efficacité de cet ordonnanceur \citep{128746}. Énormément de travaux ont été effectués sur ce sujet \citep{Sha:2004:RTS:1028913.1028959}.
 
 \subsection{Début FIFO et RR}
 
@@ -113,7 +130,7 @@ Au début, \textit{$q_i$} et \textit{$d_i$} valent 0.
 Quand une tâche se réveille à l'instant $t$, l'ordonnanceur regarde si son $d_i$ est toujours valable (soit si $q_i < (d_i - t) * Q_i/ T_i$), sinon il redéfinit $d_i = t + T_i$ et $Q_i \pluseq q_i$. Quand une tâche s'exécute, son $q_i$ est diminué du temps effectué. Si $q_i$ arrive à 0, la tâche est suspendue et ne peut être sélectionnée par l'ordonnanceur pour exécution (parce qu'il ne respecterait pas alors le $Q_i$ sur une période $T_i$). La tâche est reprise seulement au temps $t = d_i$, son $q_i$ sera alors égale à $Q_i$ et son échéance postposée à $d_i \pluseq T_i$.
 
 Cependant ce genre d'algorithmes est généralement conçu pour des processeurs monocœurs. Lorsque plusieurs processus peuvent être exécutés en même temps, on distingue deux cas d'ordonnanceur \citep{faggioli2009implementation}: les globaux et les partitionnés (et des hybrides). Dans le global, toutes les tâches sont fournies à la même structure de donnée qui les distribue sur les différents cœurs alors que dans le partionné, différentes listes sont maintenues pour chaque processeur. Ils ont chacun leurs avantages et inconvénients et il y a beaucoup de littérature sur ce sujet \citep{bastoni2010empirical, lelli2012experimental}.
-En l'occurrence, Linux utilise une file de tâches distribuée, c'est à dire que chaque processeur à sa propre file mais que des tâches peuvent être transférées de l'une vers l'autre.
+En l'occurrence, Linux utilise une file de tâches distribuée, c'est-à-dire que chaque processeur à sa propre file mais que des tâches peuvent être transférées de l'une vers l'autre.
 
 L'un des plus gros problèmes du temps réel est lié aux ressources partagées \citep{buttazzo2011hard}. En effet, les sections critiques peuvent entraîner une grande surcharge de travail, ou des risques d'inversions de priorité. On améliore généralement ces algorithmes avec ce qui s'appelle \textit{deadline inheritance over shared resources} ou \textit{DFP} \citep{jansen2003lightweight}. Il existe également des \textit{serveurs} qui visent à améliorer l'utilisation sur les différents cœurs en utilisant les ressources au maximum, en équilibrant au mieux la charge. Notamment, le \textit{Bandwidth Inheritance algorithm}, extension du \textit{Constant Bandwidth Server} \citep{Abeni:1998:IMA:827270.829047} intégré au noyau Linux en même temps que le \textit{EDF}. Ou encore un de ses enfants, le \textit{Greedy Reclamation of Unused Bandwidth} \citep{Lipari:2000:GRU:1947412.1947445}. Citons également, le \textit{Barbershop Load
 Distribution algorithm} de Rakib Mullick qui tendrait à mieux répartir les tâches en fonction de la charge présente sur les cœurs \citep{BarbershopLoadDistribution}.
@@ -124,7 +141,7 @@ Nous avons vu la situation chez Linux mais qu'en est-il pour d'autres grands sys
 
 \subsection{Microsoft}
 
-Chez Microsoft, depuis Windows NT, un ordonnanceur avec plusieurs files à priorités est employé. Il correspond plus ou moins à l'idée du $O(n) / O(1)$ mais avec 32 priorités dont 16 concernent les opérations relatives au \textit{soft real-time} et la priorité 0 au système de nettoyage des pages mémoires inutilisées \citep{jones1999cpu}. Nottons que cet ordonnanceur n'effectue pas de distinctions entre les tâches d'un même programme et les programmes en eux-mêmes. Si un exécutable A possède 10 \textit{threads} et B en détient 2, chaque \textit{thread} recevra théoriquement un douzième du temps imparti. Windows propose plus de status différents possibles pour les tâches comparativement à Linux et que depuis Vista, le registre qui comptabilise le nombre de cycles effectués par un programme est employé \citep{Russinovich:2009:WII:1717352}. Il existe également, depuis Windows 7, la possibilité d'utiliser son propre ordonnanceur pour ses tâches appelé \textit{User-Mode Scheduling} \citep{UMS}.
+Chez Microsoft, depuis Windows NT, un ordonnanceur avec plusieurs files à priorités est employé. Il correspond plus ou moins à l'idée du $O(n) / O(1)$ mais avec 32 priorités dont 16 concernent les opérations relatives au \textit{soft real-time} et la priorité 0 au système de nettoyage des pages mémoires inutilisées \citep{jones1999cpu}. Nottons que cet ordonnanceur n'effectue pas de distinctions entre les tâches d'un même programme et les programmes en eux-mêmes. Si un processus A possède 10 \textit{threads} et B en détient 2, chaque \textit{thread} recevra théoriquement un douzième du temps imparti pour l'ensemble des tâches. Windows propose plus de status différents possibles pour les tâches comparativement à Linux et que depuis Vista, le registre qui comptabilise le nombre de cycles effectués par un programme est employé \citep{Russinovich:2009:WII:1717352}. Il existe également, depuis Windows 7, la possibilité d'utiliser son propre ordonnanceur pour ses tâches appelé \textit{User-Mode Scheduling} \citep{UMS}.
 
 \subsection{Apple}
 
