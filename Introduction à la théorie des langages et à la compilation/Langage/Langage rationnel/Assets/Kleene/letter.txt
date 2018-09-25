@@ -1,0 +1,23 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (48.1,-29.1) circle (3);
+\draw (48.1,-29.1) node {$q_{f}$};
+\draw [black] (27.2,-29.1) circle (3);
+\draw (27.2,-29.1) node {$q_{i}$};
+\draw [black] (48.1,-29.1) circle (2.4);
+
+\draw [black] (30.2,-29.1) -- (45.1,-29.1);
+\fill [black] (45.1,-29.1) -- (44.3,-28.6) -- (44.3,-29.6);
+\draw (36.75,-29.6) node [below] {$\sigma$};
+
+\draw [thick,->] (21.2, -29.1) -- (24.2, -29.1);
+\end{tikzpicture}
+\end{center}
+
+\end{document}

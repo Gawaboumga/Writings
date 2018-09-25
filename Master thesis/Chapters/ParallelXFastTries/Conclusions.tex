@@ -1,0 +1,45 @@
+
+\section{Conclusions}
+
+As we have seen, the results we obtained in the sequential\index{Sequential} framework are surprising close from those obtained in the concurrent\index{Concurrent} framework. Of course, we expected a certain loss of performance related to the very large number of memory accesses needed to respond to requests, unlike the very limited subset proposed by the LSM\index{LSM}, but clearly not in such measures.
+
+The theoretical performance offered by X-fast tries\index{X-fast trie} was really important to check and adapt to the context of the graphics cards\index{Graphics cards}. This data structure proposes a real alternative to LSM. We want to emphasize that we are far from the number of insertions being announced in their article since we used smaller batch sizes, but our data structure has the advantage of offering insertions by element.
+
+One of the big black spots of this data structure is obviously the need to abuse atomic\index{Atomic} operations, and these are inherently terribly slow. We count no less than 7 million atomic transactions to insert a hundred thousand elements, however the system can provide more than 7GB/s for these operations. Nonetheless, the performances remain interesting. The other one is the amount of memory needed to hold the structure in memory which is incredibly huge. We stopped our experiments for more than 250 thousands ($2^{18}$) of insertions since we reach the limits of our available memory.
+
+To resume, we achieve equivalent performance for insertions (10Mop/s) and thread-based searches (300Mop/s). We are faster on searches that use an entire warp (110Mop/s vs 30Mop/s) and we are slower on average on predecessor queries (10Mop/s vs 30Mop/s). Our data structure is of interest if the number of predecessor/successor requests remains lower than the search operations.
+
+Nevertheless, we obtained these results in an ideal case, where all the space had been pre-allocated. One expects to become notoriously slower on insertions in practice. The load factor used in hash tables is relatively low 50\%, one can also lose efficiency there.
+
+Besides, it has the advantage of being able to improve itself thanks to scientific or material advances. It also explores a path in research where parallelism can be used at lower cost to find elements effectively. We can hope to see other more advanced structures employing similar techniques, like warp election.
+
+To conclude, we have tried to group in a single table the main differences proposed for the only two existing dynamic dictionaries\index{Dictionnary} on GPUs\index{Graphics cards}, at this time, in order to have a more theoretical and high level aspect of what is proposed in practice.
+
+\newpage
+
+\begin{table}[!htb]
+\centering
+\caption{Resume comparison of LSM\index{LSM} and X-Fast tries}
+\label{my-label}
+\begin{tabular}{ccc}
+                     & LSM                  & X-Fast tries          \\
+Insertion            & Bulk and Block       & Element and Warp       \\
+$w = |\text{warp size}|$ & $O(\log N)$          & $O(\frac{\log u}{w})$ \\
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{}  \\
+Search               & Thread               & Thread                \\
+                     & $O(\log^{2} N)$      & $O(1)$                \\
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{}  \\
+Predecessor          & Thread               & Warp                  \\
+                     & $O(\log^{2} N)$      & $O(\frac{\log u}{w})$ \\
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{}  \\
+Range queries        & Yes                  & No\footnotemark       \\
+$L$ output           & $O(\log^{2} N + L)$  & $O(L)$                \\
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{}  \\
+Concurrency          & Difficult            & Medium                \\
+Memory               & Proportional (3N)    & Huge (+100N)$^{2}$    \\
+Variance             & High                 & Small                 \\
+Requirements         & Comparable keys      & Only integers         \\
+Implementation       & Easy                 & Hard          
+\end{tabular}
+\end{table}
+\footnotetext{Lazy iteration on the elements.\\$~\quad~^{2}$Proportional to $\Theta(3 N \log u)$.}

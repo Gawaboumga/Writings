@@ -1,0 +1,63 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+
+\tikzset{
+    state/.style={
+           rectangle,
+           rounded corners,
+           draw=black, very thick,
+           minimum height=2em,
+           inner sep=2pt,
+           text centered,
+           },
+}
+
+\begin{document}
+
+\begin{tikzpicture}[->,>=stealth']
+
+ \node[state] (DFA) 
+ { DFA };
+  
+ % State: ACK with different content
+ \node[state,    	% layout (defined above)
+  yshift=2cm, 		% move 2cm in y
+  right of=DFA, 	% Position is to the right of QUERY
+  node distance=5.cm, 	% distance to QUERY
+  anchor=center] (REGEX) 	% posistion relative to the center of the 'box'
+ {
+    Regular Expression
+ };
+ 
+  % STATE QUERYREP
+ \node[state,
+  right of=DFA,
+  node distance=5.cm,
+  anchor=center] (NFA) 
+ {
+    NFA
+ };
+ 
+ % STATE QUERYREP
+ \node[state,
+  right of=NFA,
+  node distance=5.cm,
+  anchor=center] (ENFA) 
+ {
+    NFA-$\epsilon$
+ };
+
+ % draw the paths and and print some Text below/above the graph
+ \path (DFA) 	edge[bend left=20]  node[anchor=south,xshift=-1cm,yshift=0.11cm]{State Elimination} (REGEX)
+        (REGEX) edge[bend left=20]  node[anchor=south,xshift=1.1cm,yshift=0.11cm]{Thompson construction} (ENFA)
+        (ENFA) 	edge[bend left=20]  node[anchor=south,above,yshift=0.11cm]{Powerset construction} (DFA)
+        (NFA) 	edge  node[anchor=south,above]{Powerset construction} (DFA)
+        (ENFA) 	edge  node[anchor=south,above]{Special case} (NFA)
+ ;
+
+\end{tikzpicture}
+\end{document}

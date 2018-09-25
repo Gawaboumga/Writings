@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{shapes.multipart}
+\begin{document}
+
+\begin{tikzpicture}[stack/.style={rectangle split, rectangle split parts=#1,draw, anchor=center}]
+\node[stack=5]  {
+\nodepart{two}
+\nodepart{three}
+\nodepart{four}
+\nodepart{five}Exp
+};
+
+\node[stack=5, xshift=2cm]  {
+\nodepart{two}
+\nodepart{three}Exp
+\nodepart{four}+
+\nodepart{five}Exp
+};
+
+\node[stack=5, xshift=4cm]  {
+\nodepart{one}Exp
+\nodepart{two}*
+\nodepart{three}Exp
+\nodepart{four}+
+\nodepart{five}Exp
+};
+
+\node[stack=5, xshift=6cm]  {
+\nodepart{one}3
+\nodepart{two}*
+\nodepart{three}Exp
+\nodepart{four}+
+\nodepart{five}Exp
+};
+
+\node[stack=5, xshift=8cm]  {
+\nodepart{three}x
+\nodepart{four}+
+\nodepart{five}Exp
+};
+
+\node[stack=5, xshift=10cm]  {
+\nodepart{five}2
+};
+
+\node[stack=5, xshift=12cm]  {
+};
+
+\end{tikzpicture}
+
+\end{document}

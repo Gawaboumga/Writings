@@ -1,0 +1,99 @@
+%ceci est un canevas possible pour un mémoire en français; 
+%pour l'anglais (américain ou UK) c'est facile à adapter
+%il y a de nombreuses variantes possibles: consulter votre promoteur ou le président de jury en cas de doute sur l'opportunité de les utiliser!
+\documentclass[11pt,a4paper,oneside]{book}
+\usepackage[hmargin={1.25in,1.25in},vmargin={1.25in,1.25in}]{geometry}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\makeindex
+\usepackage{textcomp}
+\usepackage{fancyhdr}
+\usepackage{makeidx}
+\usepackage{amssymb}
+\usepackage{import}
+\usepackage{makeidx}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{footnote}
+\usepackage{enumitem}
+\usepackage{chapterbib,hyperref,backref}
+\pagestyle{myheadings}
+\fancyhf{}
+\rhead[\leftmark]{thepage}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{babel}
+\usepackage{url}
+\usepackage{subfig}
+
+\begin{document}
+%%%%%%%%%%%%%%%%
+\frontmatter
+
+\iffalse
+
+\begin{titlepage}
+\begin{center}
+\textbf{UNIVERSIT\'E LIBRE DE BRUXELLES}\\
+\textbf{Faculté des Sciences}\\
+\textbf{Département d'Informatique}
+\vfill{}\vfill{}
+
+%\begin{center}
+{\Huge Fast dynamic predecessor queries on GPU \vspace*{.5cm}}
+%\end{center}
+
+{\Huge \par}
+\begin{center}{\LARGE Youri Hubaut}\end{center}{\Huge \par}
+\vfill{}\vfill{}
+\begin{flushright}{\large \textbf{Promotor :} John Iacono}\hfill{}{\large Master Thesis in Computer Sciences}\end{flushright}{\large\par}
+\vfill{}\vfill{}\enlargethispage{3cm}
+\textbf{Academic year 2017~-~2018}
+\end{center}
+\end{titlepage}
+\newpage
+\thispagestyle{empty} 
+\null
+
+\thispagestyle{empty}
+\vspace*{5cm}
+
+\begin{quotation}
+\noindent ``\emph{Celerius quam asparagi cocuntur.}''
+\begin{flushright}\textbf{Gaius Suetonius Tranquillus, 87 AD}\end{flushright}
+\end{quotation}
+
+\include{Thanks}
+
+\fi
+
+\pagenumbering{arabic}
+%\import{Chapters/}{Introduction}
+
+%\import{Chapters/GPU/}{Introduction}
+
+%\import{Chapters/GPU/Algorithms/}{Introduction}
+
+%\import{Chapters/Accesses/}{Accesses}
+
+%\import{Chapters/XFastTries/}{Introduction}
+
+%\import{Chapters/HashTable/}{Introduction}
+
+%\import{Chapters/ParallelXFastTries/}{Introduction}
+
+%\import{Chapters/Conclusions/}{Introduction}
+
+\import{Chapters/Appendix/}{Introduction}
+
+\backmatter
+
+\printindex % il faudra utiliser l'utilitaire makeindex pour générer le fichier adéquat
+
+\import{./}{bibliography.tex}
+
+\end{document}
+

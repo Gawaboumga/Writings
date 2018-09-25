@@ -1,0 +1,124 @@
+\documentclass[12pt]{article}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+
+% start
+\draw [thick, ->] (9, -14) -- (12, -14);
+
+% 1
+\draw [black] (18, -14) circle (6);
+\draw (18, -14) node {
+    \begin{tabular}{c}
+    \fbox{$ S' \rightarrow \cdot S $} \\
+    $ S \rightarrow \cdot aAC $ \\
+    $ S \rightarrow \cdot ab $ \\
+    \end{tabular}
+};
+
+% 1 -> 2
+\draw (24, -14) -- (34, -14);
+\draw (29, -12) node [above] {$S$};
+\fill [black] (34, -14) -- (33, -13.5) -- (33, -14.5);
+
+% 2
+\draw [black] (40, -14) circle (6);
+\draw (40, -14) node {
+    \begin{tabular}{c}
+    \fbox{$ S' \rightarrow S \cdot $} \\
+    \end{tabular}
+};
+
+% 1 -> 4
+\draw (18, -20) -- (18, -24);
+\draw (20, -22) node [above] {$a$};
+\fill [black] (18, -24) -- (17.5, -23) -- (18.5, -23);
+
+% 4
+\draw [black] (18, -32) circle (8);
+\draw (18, -32) node {
+    \begin{tabular}{c}
+    \fbox{
+        \begin{tabular}{@{}c@{}}
+            $ S \rightarrow a \cdot AC $ \\
+            $ S \rightarrow a \cdot b $
+        \end{tabular}
+    } \\
+    $ A \rightarrow \cdot c $ \\
+    \end{tabular}
+};
+
+% 4 -> 5
+\draw (26, -32) -- (33, -32);
+\draw (29.5, -30) node [above] {$A$};
+\fill [black] (33, -32) -- (32, -31.5) -- (32, -32.5);
+
+% 5
+\draw [black] (40, -32) circle (7);
+\draw (40, -32) node {
+    \begin{tabular}{c}
+    \fbox{$ S \rightarrow aA \cdot C $} \\
+    $ C \rightarrow \cdot d $ \\
+    \end{tabular}
+};
+
+% 5 -> 6
+\draw (47, -32) -- (56, -32);
+\draw (51.5, -30) node [above] {$C$};
+\fill [black] (56, -32) -- (55, -31.5) -- (55, -32.5);
+
+% 6
+\draw [black] (62, -32) circle (6);
+\draw (62, -32) node {
+    \begin{tabular}{c}
+    \fbox{$ S \rightarrow aAC \cdot $} \\
+    \end{tabular}
+};
+
+% 4 -> 7
+\draw (18, -40) -- (18, -45);
+\draw (20, -42.5) node [above] {$b$};
+\fill [black] (18, -45) -- (17.5, -44) -- (18.5, -44);
+
+% 4 -> 8
+\draw (23.75, -37.75) -- (36.5, -46.5);
+\draw (32, -42.125) node [above] {$c$};
+\fill [black] (36.5, -46.5) -- (35.0, -46.5) -- (36.0, -45.5);
+
+% 5 -> 9
+\draw (45, -37) -- (58.5, -46.5);
+\draw (54, -41.75) node [above] {$d$};
+\fill [black] (58.5, -46.5) -- (57.0, -46.5) -- (58.0, -45.5);
+
+% 7
+\draw [black] (18, -50) circle (5);
+\draw (18, -50) node {
+    \begin{tabular}{c}
+    \fbox{$ S \rightarrow ab \cdot $} \\
+    \end{tabular}
+};
+
+% 8
+\draw [black] (40, -50) circle (5);
+\draw (40, -50) node {
+    \begin{tabular}{c}
+    \fbox{$ A \rightarrow c \cdot $} \\
+    \end{tabular}
+};
+
+% 9
+\draw [black] (62, -50) circle (5);
+\draw (62, -50) node {
+    \begin{tabular}{c}
+    \fbox{$ C \rightarrow d \cdot $} \\
+    \end{tabular}
+};
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}

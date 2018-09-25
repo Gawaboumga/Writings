@@ -1,0 +1,34 @@
+\documentclass[12pt]{article}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (21.5,-31) circle (3);
+\draw (21.5,-31) node {$q_{0}$};
+\draw [black] (50.3,-31) circle (3);
+\draw (50.3,-31) node {$q_{2}$};
+\draw [black] (64.9,-31) circle (3);
+\draw (64.9,-31) node {$q_{3}$};
+\draw [black] (64.9,-31) circle (2.4);
+\draw [black] (23.822,-29.104) arc (125.13348:54.86652:20.988);
+\fill [black] (47.98,-29.1) -- (47.61,-28.24) -- (47.04,-29.05);
+\draw (35.9,-24.78) node [above] {$1 + 0.0$};
+\draw [black] (48.019,-32.945) arc (-53.74602:-126.25398:20.493);
+\fill [black] (23.78,-32.94) -- (24.13,-33.82) -- (24.72,-33.01);
+\draw (35.9,-37.41) node [below] {$1$};
+\draw [black] (53.3,-31) -- (61.9,-31);
+\fill [black] (61.9,-31) -- (61.1,-30.5) -- (61.1,-31.5);
+\draw (57.6,-31.5) node [below] {$\epsilon$};
+\draw [black] (63.577,-28.32) arc (234:-54:2.25);
+\draw (64.9,-23.75) node [above] {$1$};
+\fill [black] (66.22,-28.32) -- (67.1,-27.97) -- (66.29,-27.38);
+
+\draw [thick, ->] (15.5,-31) -- (18.5,-31);
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}

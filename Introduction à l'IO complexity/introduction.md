@@ -1,0 +1,5 @@
+Dans cette (brève) introduction à l'I/O complexité, nous allons étudier des algorithmes dans un modèle de calcul différent. Souvent, durant les études, un modèle temporel de type RAM est employé afin de déterminer la complexité d'un algorithme. Il est en effet très naturel et propose une analyse proche de la conception mentale du problème. Seulement, il ne laisse pas transparaître certains phénomènes.
+
+Dans cet article, nous retracerons rapidement les idées qui ont permis l'émergence de cette famille de modèles de calcul et ceux qui ont représenté des tournants majeurs dans ce domaine. Nous nous concentrerons alors sur un modèle bien précis: External Memory (ou "EM") et verrons différents résultats obtenus dans celui-ci, avec quelques démonstrations.
+
+Ce texte requiert certaines bases en algorithmie, mais reste relativement abordable pour des étudiants du supérieur (master ou bachelier enthousiaste). Connaître a priori les notions de complexité classiques (notation grand O) est une condition nécessaire.

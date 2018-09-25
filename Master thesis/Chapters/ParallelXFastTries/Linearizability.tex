@@ -1,0 +1,8 @@
+
+\section{Interleaved operations}
+
+Finally, we would like to point out that we have only considered bulk operations, where only one type of operation is carried out. This case is obviously very far from reality where a mixture is by no means exceptional. We would therefore like to come back to this point.
+
+We clearly expect that interleaving operations and proving that implementations are correct will not be an easy task. Some mixtures don't seem to pose much of a problem at first glance. Indeed, all those who look for an element in the structure correspond to the classic case of hash tables, hence, we have the standard guarantees. Inserting elements and searching for a predecessor/successor doesn't seem too difficult either if you allow yourself a certain flexibility on the results you want to obtain.
+
+The real concerns come with the removal of elements. Indeed, both at the level of the leaves and the maintenance of the sorted list and at the levels of the intermediate leaves and the maximum/minimum values of the subtree, problems can arise. Perhaps invalidating elements and rebuilding the structure from time to time would be a better solution.

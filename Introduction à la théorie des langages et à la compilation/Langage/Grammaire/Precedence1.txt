@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{longtable}
+ 
+\begin{document}
+ 
+\begin{center}
+\begin{tabular}{lll} 
+(1) & $Exp$ & $\rightarrow Exp + Exp$ \\ 
+(2) &       & $\rightarrow Exp * Exp$ \\ 
+(3) &       & $\rightarrow Id$ \\ 
+\end{tabular}
+\end{center}
+
+\end{document}

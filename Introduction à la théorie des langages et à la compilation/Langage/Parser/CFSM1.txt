@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{longtable}
+ 
+\begin{document}
+ 
+\begin{center}
+\begin{tabular}{llll} 
+(1) & $S'$ & $\rightarrow E\$$, & $\{ \epsilon \} $ \\ 
+(2) & $E$  & $\rightarrow E + T$, & $\{ \$, + \}$ \\ 
+(3) &      & $\rightarrow T$, & $\{ \$, + \}$ \\ 
+(4) & $T$  & $\rightarrow T * F$, & $\{ \$, +, * \}$ \\ 
+(5) &      & $\rightarrow F$, & $\{ \$, +, * \}$ \\ 
+(6) & $F$  & $\rightarrow Identifier$, & $\{ \$, +, * \}$ \\ 
+\end{tabular}
+\end{center}
+
+\end{document}

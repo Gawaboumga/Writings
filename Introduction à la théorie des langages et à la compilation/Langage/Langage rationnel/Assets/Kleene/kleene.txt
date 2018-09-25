@@ -1,0 +1,40 @@
+\documentclass[12pt]{article}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (54.1,-28.3) circle (3);
+\draw (54.1,-28.3) node {$q_{f}$};
+\draw [black] (54.1,-28.3) circle (2.4);
+\draw [black] (26.8,-28.3) circle (3);
+\draw (26.8,-28.3) node {$q_{r1}^{i}$};
+\draw [black] (41.5,-28.3) circle (3);
+\draw (41.5,-28.3) node {$q_{r1}^{f}$};
+\draw [black] (11.9,-28.3) circle (3);
+\draw (11.9,-28.3) node {$q_{i}$};
+\draw [black] (44.5,-28.3) -- (51.1,-28.3);
+\fill [black] (51.1,-28.3) -- (50.3,-27.8) -- (50.3,-28.8);
+\draw (47.8,-28.8) node [below] {$\epsilon$};
+\draw [black] (14.9,-28.3) -- (23.8,-28.3);
+\fill [black] (23.8,-28.3) -- (23,-27.8) -- (23,-28.8);
+\draw (19.35,-28.8) node [below] {$\epsilon$};
+\draw [black] (27.559,-25.419) arc (153.56699:26.43301:7.361);
+\fill [black] (27.56,-25.42) -- (28.36,-24.93) -- (27.47,-24.48);
+\draw (34.15,-20.83) node [above] {$\epsilon$};
+\draw [black] (52.207,-30.625) arc (-42.45682:-137.54318:26.033);
+\fill [black] (52.21,-30.63) -- (51.3,-30.88) -- (52.04,-31.55);
+\draw (33,-39.58) node [below] {$\epsilon$};
+
+\draw[rounded corners] (22.8, -24.4) rectangle (45.5, -32.3) {};
+\draw (20.5, -26.4) node [left] {$A_{r1}$};
+
+\draw [thick,->] (5.9,-28.3) -- (8.9,-28.3);
+
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}

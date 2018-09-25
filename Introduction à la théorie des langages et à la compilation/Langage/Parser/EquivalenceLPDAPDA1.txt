@@ -1,0 +1,19 @@
+\documentclass[12pt]{article}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (20.2,-27.4) circle (3);
+\draw (20.2,-27.4) node {$q_{0}$};
+\draw [black] (36.8,-27.4) circle (3);
+\draw (36.8,-27.4) node {$q_{1}$};
+\draw [black] (23.2,-27.4) -- (33.8,-27.4);
+\fill [black] (33.8,-27.4) -- (33,-26.9) -- (33,-27.9);
+\draw (28.5,-27.9) node [below] {$x : x, X / \gamma$};
+\end{tikzpicture}
+\end{center}
+
+\end{document}

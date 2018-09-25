@@ -1,0 +1,58 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage{import}
+\usepackage[utf8]{inputenc}
+\usepackage[numbers, sort]{natbib}
+\usepackage{chapterbib,hyperref,backref}
+\usepackage[margin=1.3in]{geometry}
+\usepackage[francais]{babel}
+\usepackage{listings}
+\selectlanguage{french} 
+\usepackage[T1]{fontenc}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{csquotes}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{nomencl}
+
+\begin{document}
+
+% [+] 1ère page
+
+\begin{titlepage}
+    \vspace*{\fill}
+    \begin{center}
+        \huge {Méthodes et outils pour l'analyse de données de mobilité} \\
+	    \textbf{MEMO-F-403}: Preparatory work for the master thesis \\
+	
+	    \Large {Youri Hubaut}\\
+        Année académique: 2016 - 2017\\
+	    29 mai 2017 \\
+	      \\
+	      \\
+	    \includegraphics[scale=0.1]{logo_ulb.jpg}
+    \end{center}
+    \vspace*{\fill}
+
+\end{titlepage}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\import{Introduction/}{introduction.tex}
+
+\import{EtatDeLArt/}{etatDeLArt.tex}
+
+\import{Prevision/}{prevision.tex}
+
+\bibliographystyle{ieeetr}
+{\footnotesize
+\bibliography{Introduction/bibliographyIntroduction,EtatDeLArt/bibliographyStateOfArt,Prevision/bibliographyPrevision}
+}
+
+\end{document}

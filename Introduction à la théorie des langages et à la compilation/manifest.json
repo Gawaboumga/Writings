@@ -1,0 +1,108 @@
+{
+  "type" : "TUTORIAL",
+  "object" : "container",
+  "slug" : "introduction-a-la-theorie-des-langages-et-a-la-compilation",
+  "title" : "Introduction à la théorie des langages et à la compilation",
+  "introduction" : "introduction.md",
+  "conclusion" : "conclusion.md",
+  "children" : [ {
+    "object" : "container",
+    "slug" : "introduction",
+    "title" : "Introduction",
+    "introduction" : "introduction/introduction.md",
+    "conclusion" : "introduction/conclusion.md",
+    "children" : [ ]
+  }, {
+    "object" : "container",
+    "slug" : "langage-rationnel",
+    "title" : "Langage rationnel",
+    "introduction" : "langage-rationnel/introduction.md",
+    "conclusion" : "langage-rationnel/conclusion.md",
+    "children" : [ {
+      "object" : "extract",
+      "slug" : "automatefini",
+      "title" : "AutomateFini",
+      "text" : "langage-rationnel\\automatefini.md"
+    }, {
+      "object" : "extract",
+      "slug" : "langagerationnel",
+      "title" : "LangageRationnel",
+      "text" : "langage-rationnel\\langagerationnel.md"
+    }, {
+      "object" : "extract",
+      "slug" : "equivalence",
+      "title" : "Equivalence",
+      "text" : "langage-rationnel\\equivalence.md"
+    }, {
+      "object" : "extract",
+      "slug" : "minimal",
+      "title" : "Minimal",
+      "text" : "langage-rationnel\\minimal.md"
+    } ]
+  }, {
+    "object" : "container",
+    "slug" : "grammaire",
+    "title" : "Grammaire",
+    "introduction" : "grammaire/introduction.md",
+    "conclusion" : "grammaire/conclusion.md",
+    "children" : [ {
+      "object" : "extract",
+      "slug" : "grammaire",
+      "title" : "Grammaire",
+      "text" : "grammaire\\grammaire.md"
+    }, {
+      "object" : "extract",
+      "slug" : "derivation",
+      "title" : "Derivation",
+      "text" : "langage-sans-contexte\\derivation.md"
+    }, {
+      "object" : "extract",
+      "slug" : "transformation",
+      "title" : "Transformation",
+      "text" : "grammaire\\transformation.md"
+    } ]
+  }, {
+    "object" : "container",
+    "slug" : "langage-sans-contexte",
+    "title" : "Langage sans contexte",
+    "introduction" : "langage-sans-contexte/introduction.md",
+    "conclusion" : "langage-sans-contexte/conclusion.md",
+    "children" : [ {
+      "object" : "extract",
+      "slug" : "langage-sans-contexte",
+      "title" : "Langage sans contexte",
+      "text" : "langage-sans-contexte\\langage-sans-contexte.md"
+    }, {
+      "object" : "extract",
+      "slug" : "automatepile",
+      "title" : "AutomatePile",
+      "text" : "langage-sans-contexte\\automatepile.md"
+    }, {
+      "object" : "extract",
+      "slug" : "equivalence",
+      "title" : "Equivalence",
+      "text" : "langage-sans-contexte\\equivalence.md"
+    } ]
+  }, {
+    "object" : "container",
+    "slug" : "parser",
+    "title" : "Parser",
+    "introduction" : "parser/introduction.md",
+    "conclusion" : "parser/conclusion.md",
+    "children" : [ {
+      "object" : "extract",
+      "slug" : "topdown",
+      "title" : "TopDown",
+      "text" : "parser\\topdown.md"
+    }, {
+      "object" : "extract",
+      "slug" : "bottomup",
+      "title" : "BottomUp",
+      "text" : "parser\\bottomup.md"
+    } ]
+  } ],
+  "version" : 2,
+  "licence" : "Tous droits réservés",
+  "description" : "Brève introduction à la théorie des langages et à la compilation",
+  "type" : "TUTORIAL"
+}

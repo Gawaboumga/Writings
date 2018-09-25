@@ -1,0 +1,42 @@
+
+\section{Design}
+
+Designing an algorithm is not a trivial task; even more, in case of parallelism. There are some strategies to help us to create efficient and parallel algorithms but there are also some considerations to take into account. In 1995, Foster~\cite{foster1995designing} identified four key components to design many algorithms.
+
+\subsection{Partitioning}
+
+The first idea which comes to mind when trying to solve some parallel problem is to find out how to split it into several subproblems. The goal is thus to identify whether it is possible to partition either at the level of the data or at the level of the tasks. If the subproblems can work on different data at the same time, we tend to say that there is data-parallelism. On the other hand, when the tasks do not conflict each other, we use the notion of task-parallelism. Those two big families are represented through a large variety of problems. But, data-parallelism seems more in adequation with data-driven programs, like physics simulation or data science. Whereas, task-parallelism arises more often in algorithmetical problems such as graph traversals or flow notions.
+
+\subsection{Communication}
+
+When the method of partitioning has been determined, we still need to consider the communication. This is often divided into two categories: the local and the global communication. Local communation appears when subproblems can easily communicate with their neighbours to continue their work. Global communication, on the opposite, involves broadcast to be able to make the next step. In this phase, all the problems linked to communication and concurrency need to be handled through different and classical methods as critical sections or barriers to ensure consistency among the workers and reliability in the results.
+
+\subsection{Agglomeration}
+
+Even though, we have nice partitioning with small communication requirements, there may be some imbalances in the resulting computations and it would be nice if we could rebalance the problem while running it. This aspect related to the granularity of the problem. Fine-grained divide the problem into a huge number of jobs but with a lot of communication; coarse-grained perform less jobs but with larger tasks. This is a trade-off between parallelism and communication. Agglomeration seeks thus to find the best compromise of granularity while taking into account the final implementation.
+
+\subsection{Mapping}
+
+With the recent advances in the hardware and algorithmic considerations, it may be interesting to consider how the agglomerations will be mapped to computational processors. The way those are distributed among the cores and their relative order can have significant impact on the performances of the final implementation of the algorithm. We want, of course, to have a direct mapping or, at least, the simplest method to avoid higher hardware complexity and overhead. But, this may lead to counter techniques which enhance balancing. This category really became prominent with distributed memory and GPU computing where exploiting hardware may lead to signifcant improvements.
+
+It is therefore interesting to offer this aspect to developers so that they can choose what suits them best and this results in the consideration or not of notions of warps, blocks or grids in algorithms. Knowing which primitives we are working on allows simplifications that can make the code much more efficient.
+
+\subsection{Brent's scheduling principle}
+
+{
+\setstretch{0.95}
+When we speak of parallelism, the notion of Brent's Scheduling Principle is often mentioned, it synthesizes a logical observation that appears when we study parallel algorithms in a more algorithmic and complexity-related framework.
+
+Some algorithms are said to be time optimal if the number of steps in parallel program is equal to the number of steps in the best sequential algorithm. One should remark that there are two main way to associate the complexity in parallel algorithms:
+
+\begin{itemize}
+    \item Either, we consider the time complexity of a parallel algorithm as the number of steps taken by each processor, denoted by $S(N)$ and called \textit{span}.
+    \item Either, we study the complexity of the whole task as the total number of operations the algorithm performed by every processors, denoted by $W(N)$ and called \textit{work}.
+\end{itemize}
+
+If a parallel algorithm runs in $S(N)$ and uses a total of $W(N)$ operations, it can be simulated on a $P$-processor PRAM
+in no more than $T_{C}(N, P) = W(N)/P + S(N)$ parallel steps. This is known as Brent's Scheduling Principle~\cite{gibbons1989more} but, this principle does not apply to PEM model of computation. Since, if we apply the same idea with a round-robin simulation of the processors, this would lead, in worst-case, to $\Theta(\frac{PM}{B})$ factor due to the fact that we need to load the entire memory of each processor to simulate it. There is no equivalent theorem in this framework, the closest states that a PRAM algorithm in time $T(N)$ of $N$ processors and $O(N)$ space can be simulated in $O(T(N) \text{ sort}(N))$ I/Os~\cite{chiang1995external}.
+
+The whole point of Brent's Scheduling Principle is that it provides equivalence between parallel and sequential programs. This mainly means that if an algorithm has a better complexity in the parallel framework, then there exists a sequential program equivalent with the same work complexity since we could easily simulate the parallel one.
+
+}

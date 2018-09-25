@@ -1,0 +1,37 @@
+
+\chapter{Parallel X-fast tries}\label{PARALLELXFASTTRIE}
+
+We have previously seen in detail the X-fast tries\index{X-fast trie}, their general concept and implementation strategy, in a sequential framework$^{[\ref{XFastTrie}]}$. We can try to adapt it better to the paradigm of graphic cards\index{Graphics cards} and thus take advantage of all the computing power offered by them. Indeed, our implementation was for the moment purely sequential\index{Sequential} in order to see if it presented only a theoretical or real interest. Following the results, we looked at the question of making this data structure concurrent\index{Concurrent} and since they are based on hash tables\index{Hash table}, it was interesting to come back to these different notions. In this chapter, we will attempt to combine these two aspects (the X-fast tries\index{X-fast trie} and concurrent\index{Concurrent} hash tables\index{Hash table}) into one to see what could be achieved for more exploitable purposes. This will also allow us to determine whether this structure is still relevant in a highly parallel context.
+
+\input{Chapters/ParallelXFastTries/GeneralIdeas}
+
+\input{Chapters/ParallelXFastTries/LSM}
+
+\input{Chapters/ParallelXFastTries/Implementation}
+
+\input{Chapters/ParallelXFastTries/Experiments}
+
+\input{Chapters/ParallelXFastTries/Scalability}
+
+\input{Chapters/ParallelXFastTries/Linearizability}
+
+\input{Chapters/ParallelXFastTries/Conclusions}
+
+% TALK ABOUT LINEARIZABILITY
+
+
+%http://people.cs.georgetown.edu/~jfineman/papers/cobtree.pdf
+%Correctness
+%We first argue that the data structure is correct, even under concurrent
+%operations. The most common way of showing that an algorithm
+%implements a linearizable object is to show that in every
+%2The hyperceiling of x, denoted ddxee, is defined to be 2
+%dlogxe
+%, i.e.,
+%the smallest power of 2 greater than x.
+%execution there exists a total ordering of the operations with the
+%following properties: (1) the ordering is consistent with the desired
+%insert/search semantics, and (2) if one operation completes before
+%another begins, then the first operation precedes the second in the
+%ordering. Linearizability follows due to a straightforward extension
+%of Lemmas 13.10 and 13.16 in [22].

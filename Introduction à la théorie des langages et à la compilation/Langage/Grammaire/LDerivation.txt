@@ -1,0 +1,27 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{tikz}
+\begin{document}
+\begin{tikzpicture}[sibling distance=10em,
+  every node/.style = {align=center}]]
+  \node {Exp}
+    child { node {Exp}
+      child { node {Exp}
+        child { node {Constant}
+            child { node {3} }
+        }
+      }
+      child { node {*} }
+      child { node {Exp}
+        child { node {Identifier}
+            child { node {x} }
+        }
+      }
+    }
+    child { node {+} }
+    child { node {Exp} 
+        child { node {Constant}
+            child { node {2} }
+        }
+    };
+\end{tikzpicture}
+\end{document}

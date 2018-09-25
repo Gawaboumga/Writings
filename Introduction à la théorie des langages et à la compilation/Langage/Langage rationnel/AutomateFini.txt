@@ -1,0 +1,33 @@
+## Automate fini
+
+Alors que les expressions rationnelles nous fournissent une notation compacte et lisible afin de décrire les langages réguliers. Il n'est pas évident de déterminer quelle procédure adopter afin de manipuler de manière automatisée de tels langages. Ainsi, il semble nécessaire de rajouter un niveau d'abstraction qui permettrait de définir des algorithmes utiles et qui permettraient de répondre à la question de l'appartenance.
+
+Un modèle possédant des caractéristiques très intuitives tout en étant fort simple a été proposé en 1951 par S. Kleene[^1], dans un très long et passionant article. Mais n'a réellement pris son essor dans la théorie des langages que sous l'action de M. Rabin & D. Scott (prix Turing conjointement déscerné en 1976)[^2] après la publication de leur article en 1959.
+
+Un automate fini (*finite automaton*) est une machine abstraite qui lit un mot fourni en entrée, lettre par lettre et qui, en fonction de ce qu'elle lit, change d'état. Elle termine son exécution lorsqu'elle termine la lecture de son entrée et accepte le mot si elle termine dans un état dit "acceptant".
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (25.7,-29.1) circle (3);
+\draw (25.7,-29.1) node {$even$};
+\draw [black] (51.9,-29.1) circle (3);
+\draw (51.9,-29.1) node {$odd$};
+\draw [black] (51.9,-29.1) circle (2.4);
+\draw [black] (49.413,-30.773) arc (-60.11477:-119.88523:21.299);
+\fill [black] (28.19,-30.77) -- (28.63,-31.6) -- (29.13,-30.74);
+\draw (38.8,-34.1) node [below] {$1$};
+\draw [black] (28.135,-27.352) arc (121.47104:58.52896:20.429);
+\fill [black] (49.47,-27.35) -- (49.04,-26.51) -- (48.52,-27.36);
+\draw (38.8,-23.85) node [above] {$1$};
+\draw [black] (53.496,-26.574) arc (175.44501:-112.55499:2.25);
+\draw (58.3,-24.3) node [right] {$0$};
+\fill [black] (54.88,-28.83) -- (55.63,-29.39) -- (55.71,-28.4);
+\draw [black] (22.716,-28.939) arc (294.64225:6.64225:2.25);
+\draw (19.15,-24.58) node [left] {$0$};
+\fill [black] (24.01,-26.63) -- (24.13,-25.7) -- (23.22,-26.11);
+\end{tikzpicture}
+\end{center}
+
+[^1]: Kleene, S. C. (1951). Representation of events in nerve nets and finite automata (No. RAND-RM-704). RAND PROJECT AIR FORCE SANTA MONICA CA.
+[^2]: Rabin, M. O., & Scott, D. (1959). Finite automata and their decision problems. IBM journal of research and development, 3(2), 114-125.

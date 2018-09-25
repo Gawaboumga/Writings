@@ -1,0 +1,38 @@
+
+\section{Speed-up}
+
+After collecting all these data and results, we asked ourselves what was the scalability of such a data structure. And mainly, what was the influence of the number of blocks and warps on the performances. Indeed, with material advances, we can expect an increase in these resources both in quantity and in speed (cost related to latency, scheduling,...). Will it remain interesting in a more distant future.
+
+So we collected data on the insertion of 131 thousand items ($2^{17}$) for many configurations. We varied the number of blocks and warps from 1 to 32 and from 1 to 16 respectively by doubling each time their number. We present the mean time associated with its standard deviation (in parenthesis). The intermediate lines represent the ratio between the time taken for that specific configuration and that with only one block and one warp (and therefore non-concurrent).
+
+\begin{table}[]
+\centering
+\caption{Time to insert 32-bit keys in function of the number of warps and blocks}
+\label{my-label}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{ccccccc}
+         & \# Warps 1           & 2                    & 4                    & 8                   & 16                 \\
+\#Blocks &                      &                      &                      &                     &                    \\
+1        & 611080.18 (2151.349) & 306842.126 (970.405) & 154465.447 (203.045) & 80001.789 (163.276) & 42918.908 (81.063) \\
+         & 100.0                & 50.21                & 25.28                & 13.09               & 7.02               \\
+2        & 316926.742 (789.772) & 159116.154 (579.524) & 80069.378 (101.706)  & 41476.388 (98.77)   & 22452.94 (44.331)  \\
+         & 51.86                & 26.04                & 13.1                 & 6.79                & 3.67               \\
+4        & 160547.17 (356.854)  & 80964.003 (269.402)  & 40692.377 (88.208)   & 21198.831 (38.379)  & 11562.582 (31.429) \\
+         & 26.27                & 13.25                & 6.66                 & 3.47                & 1.89               \\
+8        & 81903.641 (182.339)  & 41682.092 (131.041)  & 21026.405 (63.426)   & 11649.702 (36.151)  & 7061.199 (49.369)  \\
+         & 13.4                 & 6.82                 & 3.44                 & 1.91                & 1.16               \\
+16       & 41745.251 (124.893)  & 21266.58 (90.145)    & 11281.267 (51.34)    & 6674.541 (30.823)   & 7487.541 (43.459)  \\
+         & 6.83                 & 3.48                 & 1.85                 & 1.09                & 1.23               \\
+32       & 21303.918 (62.376)   & 11469.453 (34.3)     & 6597.327 (17.209)    & 7461.54 (32.463)    & 5709.916 (33.266)  \\
+         & 3.49                 & 1.88                 & 1.08                 & 1.22                & 0.93                 
+\end{tabular}
+}
+\end{table}
+
+The results are self-explanatory:
+\begin{itemize}
+    \item Generally speaking, we see the times reduced with the increase in parallelism capacities.
+    \item The times are roughly equivalent on the diagonals, which is relatively logical. And implies that both the increase in the number of blocks and warps contribute to the overall performance improvement.
+    \item The speed-up is far from being linear, we get more than 20\% of variation from the theoretical increase for configurations such as $\#warps \times \#blocks \geq 128$. And we're almost at a factor $2$ on the last configuration proposed where we reach nearly the maximum possible speed. This may be explained by the fact that we are beginning to reach the maximum possible bandwidth and that the concurrency problems on the double-linked list at the leaf level are not totally without cost.
+\end{itemize}
+

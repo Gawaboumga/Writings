@@ -1,0 +1,40 @@
+
+\chapter{Conclusions}
+
+In this chapter, we will come back to the different results we obtained in order to propose a synthesis. We will try to remain as comprehensive as possible and give the main conclusions that have been elaborated in more detail in their related chapter. This aims to close the journey proposed by this work.
+
+\section{PEM model}
+
+We have attempted to provide a summary of the work that has been done under the PEM calculation model. We hope you have perceived the links between I/O complexity and parallelism. Y. J. Chiang had already remarked that algorithms to resolve I/O problems generally corresponded to parallel ones and that stronger connections could exist between the two. One can also see this from another point of view which is that an efficient parallel algorithm is one that effectively divides the problem in order to minimize the number of sequential\index{Sequential} parts, which results in better data separation and thus better memory usage. We also hope that you will have perceived the beauty of the ideas behind these concepts.
+
+\section{Memory access}
+
+To our great surprise, we discovered that the time required to access the data was far from the expected behaviour. Indeed, the access pattern can have heavy consequences on performance with factors that can be quite very important, we are talking about a magnitude of 10 or more, which was expected. But this advantage quickly fades with wider data, the adjacent access types suffer a very strong degradation of their performance while the random ones hardly see their time decreased. This may make it more attractive to perform multiple random accesses rather than the equivalent number of adjacents since the relationship is not directly linear.
+
+It is important to understand that the loss of performance resulting from the use of random access may be compensated by greater efficiency in accessing the data thus loaded. Adjacent access remains better, but if you have no choice, it is better to use the full cache line\index{Block} loaded in this way, its following accesses are essentially free. You should not be afraid of the loss of raw performances since, in reality, the bandwidth remains the same and there is practically no overhead related to random access.
+
+\section{X-fast tries}
+
+X-fast tries\index{X-fast trie} offer a high performance alternative to B-trees\index{B-tree}. We managed to win orders of magnitude on some operations (insertion and search) but at a slightly higher time cost for predecessor/successor requests. It therefore has a clear advantage if the latter operations are less numerous than the more traditional insertion and search operations. Performance is also strongly linked to the primitive components of this data structure that are hash tables\index{Hash table}. One can hope that more effective implementations of these will lead to a direct increase in the performance of X-fast tries. Evolution which is more difficult for the B-trees\index{B-tree} since they are based on a more static structure which can hardly evolve.
+
+It is also interesting to observe the application of this concept, which consists in using all threads of the same warp in order to make a query. Perhaps we will see the emergence of new data structures that are based on the existence of multithreading primitives that make several threads available at once and thus benefit from all the computational contribution offered by them.
+
+\section{Hash tables}
+
+We tried to compare different hash table\index{Hash table} models to see which one best matched our problem. We came to the conclusion that, surprisingly and for a load factor of 50\%, using open addressing\index{Open addressing} with linear probing\index{Probing} had equivalent or slightly better performance than cuckoo hashing\index{Cuckoo hashing}.
+
+This is related to two phenomena, first, the insertion into the cuckoo hashing\index{Cuckoo hashing} is essentially sequential\index{Sequential}, one is forced to wait to have expelled an element and to have taken its place before another thread can do the same thing. There is a lot of contention possible in this data structure and we saw that setting up multi-table or bucket policies really helped. Second, with such a low load factor, the number of memory cells for open addressing\index{Open addressing} remains relatively small and comparable to cuckoo hashing\index{Cuckoo hashing}. What's more, we benefit from the locality of the data thanks to linear probing\index{Probing} as well as stronger guarantees on the invalidation of pointers. Of course, we expect the cuckoo hashing to become more interesting as the load factor increases. Chaining\index{Chaining} is really not a GPU\index{Graphics cards}-friendly technique as one would expect.
+
+\section{Parallel X-fast tries}
+
+One of the advantages of X-fast tries\index{X-fast trie} is that they are based only on hash tables\index{Hash table}. This avoids bottlenecks that can occur in tree-related data structures. One can hope to see an emergence of new concurrent\index{Concurrent} hash tables\index{Hash table}, adapted to GPU\index{Graphics cards}, given their more capital interest in research. The possibilities of concurrence\index{Concurrent} thus seem more numerous but, unfortunately, to our knowledge, there is no result on the parallelism of X-fast tries\index{X-fast trie}.
+
+So we tried as best we could to offer a concurrent\index{Concurrent} version of this data structure and compared its performance with the B-trees\index{B-tree} and another recently proposed data structure called LSM\index{LSM}. But we can conceive that bulk operations would be easy to implement and prove, problems can certainly occur when mixing different operations at the same time because it will be difficult to ensure consistent reading of data among all the hash tables\index{Hash table}, one could find oneself in awkward situations with the presence of elements in some but not all levels.
+
+After carrying out our experiments, we came to the conclusion that making X-fast tries\index{X-fast trie} concurrent\index{Concurrent} was a more difficult task than expected, we have somehow succeeded in obtaining some results but these seem very convincing especially if we compare them to their sequential\index{Sequential} version.
+
+Generally speaking, we achieve quite interesting results since we are competitive for the insertions or the searches per warp operations, slower for the predecessor queries but faster on thread-based searches in comparison to the two data structures tested, namely LSM and B-tree. It would also be the first data structure to offer dictionary-type operations in a fully dynamic manner and capable of inserting one element at a time on GPU.
+
+The main problems of this data structure are obviously its excessive memory consumption. Storing the data structure as well as the problem you wish to solve in practice and its additional processing in full in GPU memory is going to be difficult. Hopefully, memory page swap techniques between GPUs and CPUs can partially compensate for this problem, but performance will certainly suffer.
+
+As well as its difficulty of implementation and formal proof. We have tried to propose an implementation that seems fair but we are far from being able to say that it is flawless. Making the data structure concurrent and correct seems to be a real challenge and one can hope that this work will give ideas to new people in this way.

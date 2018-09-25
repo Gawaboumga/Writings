@@ -1,0 +1,49 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+\begin{document}
+
+\begin{tikzpicture}
+\draw (0, 0) ellipse[x radius = 8, 
+y radius = 6.5];
+\node [at = {(0, 7.5)}] {Context-Free Grammars};
+
+\draw (3,6.0) -- (3,-6.0);
+\node [at = {(5, 2.5)}] {Ambiguous Grammars};
+\node [at = {(-1.5, 5.5)}] {Non ambiguous Grammars};
+
+\draw (-2, 0) ellipse[x radius = 4.8, 
+y radius = 5.1];
+\node [at = {(-1.5, 4.5)}] {$LR(k)$};
+
+\draw (-2, 0) ellipse[x radius = 4.0, 
+y radius = 4.3];
+\node [at = {(-1.5, 3.7)}] {$LR(1)$};
+
+\draw (-2, 0) ellipse[x radius = 3.2, 
+y radius = 3.5];
+\node [at = {(-1.5, 2.9)}] {$LALR(1)$};
+
+\draw (-2, 0) ellipse[x radius = 2.4, 
+y radius = 2.7];
+\node [at = {(-1.5, 2.1)}] {$SLR(1)$};
+
+\draw (-2, 0) ellipse[x radius = 1.6, 
+y radius = 1.9];
+\node [at = {(-1.5, 1.3)}] {$LR(0)$};
+
+\draw (-3.5, 0) ellipse[x radius = 3.0, 
+y radius = 1.0];
+\node [at = {(-6.0, 1)}] {$LL(K)$};
+
+\draw (-3.5, 0) ellipse[x radius = 2.2, 
+y radius = 0.8];
+\node [at = {(-5.0, 0.25)}] {$LL(1)$};
+
+\draw (-2.5, 0) ellipse[x radius = 0.8, 
+y radius = 0.4];
+\node [at = {(-2.5, 0.0)}] {$LL(0)$};
+
+\end{tikzpicture}
+\end{document}

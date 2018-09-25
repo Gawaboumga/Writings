@@ -1,0 +1,44 @@
+
+\section{Sort}
+
+Sorting is a building block for many algorithms. Indeed, countless of those take for precondition a sorted collection. Hence, it is important to try to achieve the best performances possible to make benefit all the others. It is also intented to design them such that they benefit the most from the hardware. GPUs are thus good candidates to gain efficiency since we can perform many operations at the same time, like comparisons.
+
+One of the first results achieved for the PEM model of computation was the complexity bound of this problem which are inbetween $\Omega(\text{min}(\frac{N}{P}, \frac{N}{PB} \log_{\frac{M}{B}} \frac{N}{B}) + \log \frac{N}{B})$ and $O(\frac{N}{PB} \log_{\frac{M}{B}} \frac{N}{B})$ with $P \leq \frac{N}{B^{2}}$ and $M = B^{O(1)}$~\cite{arge2008fundamental}.
+
+\subsection{Sorting networks}
+
+One classical notion when talking about parallel sorting is the use of sorting networks, with the classical Batcher's odd-even mergesort or bitonic mergesort~\cite{batcher1968sorting}. But, even though, these sorting networks are not optimal, they provide good runtimes since they can be efficiently hardware-implemented. Hence, they grant low constant factors, good locality and no bank conflicts but they can not be used practically to sort large arrays. A certain type of sorting network is also at the origin of the complexity of permutation in External Memory model~\cite{jia1981complexity}.
+
+\subsection{Shearsort}
+
+Shearsort can be viewed as an analogue to the sorting networks but viewing the problem as a matrix. Elements are first sorted by rows, alternating between ascending and decreasing. Then, follow by sorting column-wise and repeat those two steps up to $\Theta(\log(N))$ times~\cite{sitchinava2013provably}. It also benefits from being bank-conflict free.
+
+\subsection{Radix sort}
+
+% http://www.cs.ucr.edu/~stelo/cpm/cpm15/28_Karkka.pdf
+
+When we are interested in the task of sorting elements, we have to be aware that we intend most of the time comparison-based. But there are some sort algorithms which do not rely on that and use other kind of information. One of the most well known is the radix sort for integer-like elements. It consists to use the propriety of the elements to directly sort them, hence it only keeps to do it in a clever way to avoid scattering and scanning~\cite{satish2009designing}.
+
+\subsection{Distribution sort}
+
+The distribution sort consists to partition the unsorted set of $N$ elements into $d$ buckets, each being recursively sorted and concatenated to obtain the final result, it can be viewed as a generalization of the quicksort. The algorithm, by it-self, randomly sample elements of the data to get $\sqrt{d}$ pivots, partition the data and calls it-self on those subsets. When there are not enough data left to recurse one again, we perform a simple sort. One heuristic is used to determine the pivots, in link to the theoretical results of A. Aggarwal and J.S. Vitter~\cite{aggarwal1988input}, it consists to sample a part of the elements that we want and construct on them our pivot distribution.
+
+Its complexity is in $O(\frac{N}{PB} \log_{\frac{M}{B}} \frac{N}{B})$ when the number of elements $N \geq PB$ and $M \geq B^{c}$ for some $c > 1$. Otherwise, its expression is way more complex~\cite{arge2008fundamental}.
+
+\subsection{Multiway merge sort}
+
+Casanova et al. proposed in 2017, a new algorithm called: \textit{Multiway Mergesort} (MMS)~\cite{casanova2017efficient}. It is the first sorting algorithm for the GPU that is asymptotically optimal in terms of global memory accesses and without any bank conflicts in shared memory. This algorithm intervenes while trying to solve two problems. Indeed, previous algorithms benefited from coalesced memory accesses but they were not trying to reduce the total number of accesses and were less cautious with the banks which may appear in the merging phase.
+
+The proposed algorithm is based on the classical notion of merge sort, which can be parallelised efficiently using partitioning~\cite{satish2009designing}. Instead of two sublists merged together multiple ones are treated at the same time. To allow parallelism, it also uses a notion of partitioning which splits some sorted list by the median pivot. Then, it tries to merge efficiently avoiding bank conflicts and trying to maximize memory coalescing. It remains to sort basis elements which will be source of the recursion for the multiway merging algorithm, this is achieved by a shearsort~\cite{sitchinava2013provably}.
+
+Let us return a little on the complexity of the classic merge sort, with the fusion of two lists at once. The complexity is described by this system:
+$$
+\left\{
+    \begin{array}{ll}
+        MT(N) = 2MT(\frac{N}{2}) + O(\frac{N}{B}) \\
+        MT(M) = O(\frac{M}{B})
+    \end{array}
+\right.
+$$
+
+Since we recurse on both sides and, to merge two lists, we need to perform one scan on two arrays, so $O(\frac{N}{B})$. Now, we remark that the height of the recursion is bounded by $O(\log N - \log M) = O(\log \frac{N}{M})$ since once we reach the cache\index{Cache} size, everything becomes essentially free. Finally, the amount of work is the same for each level of the tree, hence $O(\frac{N}{B} \log \frac{N}{M})$. But this is not optimal, since we don't use efficiently all the cache\index{Cache} available to us when merging the lists, we could merge up to $\frac{M}{B}$ lists at the same time. The coefficient ``$2$'' becomes $\frac{M}{B}$ and we finally reach the optimal bound of $O(\frac{N}{B} \log_{\frac{M}{B}} \frac{N}{B})$. Now, to adapt the result to parallelism, we just need to find out a way to split the data and merge the lists in $O(\frac{N}{PB})$. But merging lists is not as trivial as it sounds~\cite{green2012gpu}.

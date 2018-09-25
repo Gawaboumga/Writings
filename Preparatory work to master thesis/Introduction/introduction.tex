@@ -1,0 +1,75 @@
+\chapter{Introduction}
+
+\section{Plan}
+
+Dans ce travail, nous nous attarderons sur les méthodes et outils pour l'analyse de données liées à la mobilité. Nous commencerons par établir une définition de ce que nous entendons pour la notion de mobilité. Nous continuerons en donnant un bref aperçu des problématiques liées à ce genre de sujet ainsi que le contexte académique. Ensuite, nous aborderons une partie, plus théorique, en proposant un état de l'art qui tentera d'aborder de nombreux aspects liés à ce domaine: le temps, l'espace, leur union, les pratiques et études sur le sujet, les jeux de données disponibles ainsi que les bibliothèques développées afin de répondre à ces problématiques. Enfin, nous terminerons par tenter de définir le travail prévu pour l'année prochaine et le mémoire.
+
+\section{Mobilité}
+
+\begin{displayquote}
+\textit{Caractère de ce qui peut être déplacé ou de ce qui se déplace par rapport à un lieu, à une position.}
+\end{displayquote}
+\vspace{3.5pt}
+
+Cette définition fournie par l'Académie française révèle un aspect capital, celui du mouvement. Parfois connotée péjorativement à l'instar de son usage dans les expressions: "personnes à mobilité réduite" ou "mobilité professionnelle". Il dénote néanmoins la notion de changement, d'évolution, qui est une conséquence du temps qui s'écoule inexorablement. Dans le cadre de ce travail, nous restreindrons sa polysémie à un usage quasi-unique, celle de la "mobilité spatiale". Ce terme peut alors tant désigner la circulation de personnes, de biens que d'idées.
+
+De tout temps, les hommes se sont mis à voyager afin d'assouvir leur soif de connaissances ou de conquêtes. Et les progrès techniques, issus des révolutions technologiques, ont permis une réelle explosion dans la communication et les distances pouvant être accomplies. Conquérir le ciel ou la lune n'est plus une rêve et on cherche dès lors à améliorer les moyens existants en vue de perfectionner leur efficacité. Tous ces déplacements sont motivés par la réalisation d'activités (travail, études, affaires personnelles, loisirs), qui impliquent le plus souvent des contacts avec d'autres personnes dans l'optique de transformer nos sociétés.
+
+Les études de mobilité sont aujourd'hui motivées tant par leur côté prévisionnel que dans leur analyse révélatrice des pratiques de nos sociétés où la division du travail s'amplifie et où l'interdépendance envers les uns et les autres ne fait que croître. Elles permettent une meilleure compréhension des attitudes humaines. L'espace public et son parcours peuvent être conditionnés par l'évolution qu'on souhaite lui faire prendre. Code de la route, passages piétons sonores, aménagement de la voirie pour les handicapés sont tant de mesures qui formalisent nos valeurs; comprendre cet aspect de nos vies permet avant tout de mieux appréhender le monde dans lequel nous évoluons et de mieux percevoir ce que nous désirons en faire.
+
+\section{Problématique}
+
+Les premières pas dans ce domaine sont souvent associées aux travaux d'Hägerstrand de 1968~\cite{hagerstrand1968innovation} avec le concept de \textit{diffusionisme} où, pour la première fois, des données géographiques et temporelles sont interprétées sous un même œil. Il a initié le mouvement de l'étude des rythmes journaliers des déplacements humains et de leur impact sur la vie en ville~\cite{newsome1998urban, axhausen2002observing}. Plusieurs approches pour l'analyse de l'activité humaine ont été proposées~\cite{miller2009geographic}, toutes dans le but de mieux comprendre la qualité de vie et de mieux organiser les services publiques ou l'accessibilité. On peut mesurer les déplacements aux travers de plusieurs indicateurs; on pense notamment aux questionnaires, compteurs de véhicules ou vidéo-contrôle. Avec la démocratisation des téléphones portables et des applications connectées, toutes ces données se sont multipliées et ne demandent qu'à être analysées~\cite{zheng2008understanding}.
+
+Les dynamiques des populations et leur répartition sont des éléments capitaux pour la bonne compréhension de nombreux phénomènes. Les interactions des espèces, leur stabilité et leur diversité ont permis le développement d'une diversité biologique extraordinaire. Il est capital d'être en mesure de pouvoir analyser et prévoir les déplacements afin de prendre les mesures adéquates face à des maladies infectieuses par exemple~\cite{grenfell2001travelling}. Le futur des villes ou les prévisions routières sont également des problématiques importantes en vue de mieux gérer nos sociétés. Or notre compréhension des lois fondamentales régissant les déplacements humains demeure limitée malgré l'apparition de nombreuses études sur la régularité et l'aléatoire de nos trajets~\cite{gonzalez2008understanding}.
+
+\section{Contexte}
+
+Ce travail s'inscrit dans le cadre du mémoire de master, aboutissement des cinq années d'études à l'Université Libre de Bruxelles. Il vise à mettre en évidence les capacités de l'étudiant à employer les connaissances et méthodes acquises durant son enseignement. L'étudiant est évalué sur la qualité de sa présentation, de sa bibliographie, de son rapport et des contacts entretenus avec son superviseur.
+
+Indépendamment, il existe à Bruxelles le consortium \textit{Brussels MOBIlity-Advanced Indicators
+Dashboard (MOBI-AID)}~\cite{MobiAid}, fusion du \textit{Machine Learning Group}, ULB~\cite{MLG} et du \textit{MOBI Research Group}, VUB~\cite{MOBI}, et qui vise à concevoir et construire un système de surveillance des performances au moyen d'un tableau de bord des indicateurs de la mobilité. Ceci permettrait de mieux comprendre les dynamiques de la région de Bruxelles-Capitale, de soutenir prises de décisions pour les autorités locales ainsi que de permettre à Bruxelles d'être reconnue comme modèle de Smart City. De même, un étudiant, actuellement en troisième année de bachelier, M. Romain à implémenter un outil permettant de visualiser l'utilisation des vélos en agglomération bruxelloise~\cite{Villo}.
+
+\makenomenclature
+
+\renewcommand{\nompreamble}{La liste suivante décrit certains symboles qui seront employés par la suite:}
+
+\nomenclature[01]{$Y$}{Processus (le plus souvent inconnu)}
+\nomenclature[02]{$Z$}{Observations}
+\nomenclature[03]{$X$}{Majuscule, vecteur aléatoire}
+\nomenclature[04]{$x$}{Minuscule, un élément d'un vecteur aléatoire}
+\nomenclature[05]{$\epsilon$}{Erreur (généralement une gaussienne centrée)}
+\nomenclature[06]{$d$}{Nombre de dimensions}
+\nomenclature[07]{$n$}{Nombre d'observations}
+\nomenclature[08]{$._{i}$}{Variable indicée correspond à l'élément $i$ du vecteur aléatoire}
+\nomenclature[09]{$._{i:j}$}{Toutes les variables dont l'indice est compris entre $i$ et $j$}
+\nomenclature[10]{$._{-i}$}{Variable indicée par $-i$ correspond à l'ensemble des éléments de la variable aléatoire excepté l'élément $i$}
+\nomenclature[11]{$\hat{.}$}{Variable surmontée d'un accent circonflexe, estimateur pour cette variable}
+\nomenclature[12]{$D$}{Domaine, sous ensemble fini ou non, spatial si indicé par $s$ et temporel par $t$}
+\nomenclature[13]{$A$}{Aire}
+\nomenclature[14]{$s$}{Une position}
+\nomenclature[15]{$t$}{Un temps}
+\nomenclature[16]{$h$}{Une distance entre deux points}
+\nomenclature[17]{$\mathbb{E}(.)$ ou $\mu$}{Espérance globale de la variable}
+\nomenclature[18]{$\mu(.)$}{Espérance locale de la variable}
+\nomenclature[19]{$\mathbb{P}(.)$}{Probabilité associée à la loi}
+\nomenclature[20]{$\mathbb{P}(.|.)$}{Probabilité conditionnelle}
+\nomenclature[21]{$A|B$}{Plus généralement, $A$ sachant $B$}
+\nomenclature[22]{$var(.)$}{Variance de la variable}
+\nomenclature[23]{$cov(., .)$}{Covariance entre les deux variables}
+\nomenclature[24]{$C_{Y}$}{Matrice de covariance, obtenue en faisant la covariance entre chacune des valeurs du processus $Y$}
+\nomenclature[25]{$C_{Y}(h)$}{Covariance pour le processus $Y$ pour la distance $h$}
+\nomenclature[26]{$C_{Y}(., .)$}{Composante $(i, j)$ de la matrice de covariance pour le processus $Y$}
+\nomenclature[27]{$C_{Y}^{(t/s)}$}{Matrice de covariance par rapport au temps/à l'espace pour $Y$}
+\nomenclature[28]{$\gamma_{Y}(A, B)$}{Semi-variogramme, moitié de la variance de $A - B$ pour le processus $Y$}
+\nomenclature[29]{$MSE(\hat{\theta})$}{Erreur quadratique moyenne, définie par $\mathbb{E}[(\hat{\theta} - \theta)^{2}]$}
+\nomenclature[30]{$MSPE(\hat{\theta})$}{Erreur quadratique moyenne pour la prédiction}
+\nomenclature[31]{$W$}{Bruit blanc}
+\nomenclature[32]{$S$}{Ensemble des endroits}
+\nomenclature[33]{$T_{i}$}{Ensemble des observations par rapport au temps pour un endroit $i$}
+\nomenclature[34]{$N(.)$}{Voisins de l'élément}
+\nomenclature[35]{$\lambda(.)$}{Fonction d'intensité}
+\nomenclature[36]{$\| . \|$}{Norme}
+
+ 
+\printnomenclature

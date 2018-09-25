@@ -1,0 +1,40 @@
+
+\chapter{Context and Computation Model}
+
+In this part of the work, we will start by going over the general context of this problem and will take the opportunity to highlight the key factors of this kind of issues in order to propose solutions or, at least, try to resolve them. We will them follow by giving a brief summary of the numerous computation models related to parallelism to arrive at those more adapted to the representation of graphic cards\index{Graphics cards}. We will then give a high level explanation of how graphics cards\index{Graphics cards} work, their associated terminology and the issues that are intrinsically linked to them.
+
+\section{General context}
+
+Moore's law continues to be observed as a result of the various improvements both in the transistor, by a reduction of its size, and in the architecture, with increasingly complex realizations, which improve the computational power-energy ratio. Nevertheless, we see that it is increasingly difficult to stand up to different physical barriers~\cite{markov2014limits}.
+One solution to this problem is the multiplication of computation units, among others such as quantum computers, 3D layering, new materials or photo-electronics. It can bypass the Pollack's Rule\footnote{Performance increase due to microarchitecture advances is roughly proportional to the square root of the increase in complexity~\cite{borkar2011future}.} to provide better yields. But that's not the only and single advantage:
+
+The necessary computational power can be adjusted as best as possible (decrease the frequency or switch off the unit). This helps to balance the workload and distribute heat more evenly. This can also offer more resiliency, easier design and more robust architecture, less prone to bugs.
+
+However, this flexibility is paid for by smaller and therefore less efficient individual computation units. This means that more parallelization is needed to achieve the same results, leading to communication problems for memory access and message transmission~\cite{borkar2011future}. It becomes all the more important to be able to offer algorithms that can run as independently as possible in order to take full advantage of all the parallelism offered.
+
+Then comes Amdahl's law, which presents a very defeatist observation on the parallelism capacity of algorithms and their relative speed-up, the quantity of sequential part of the algorithms limits very strongly the theoretical maximum possible speed-up; or Gustafson's law, which wants to be more optimistic, by pointing out that the increase in computational power will also make it possible to respond to problems of greater size. In the following equations, $S$ represents the theoretical speedup in latency of the execution of the whole task, $p$ is the percentage of the execution workload which can me made parallel, $n$ the number of elements which can run in parallel and $s$ is the latency acceleration of the execution of the part of the task benefiting from the improvement of the system resources.
+
+\vspace{15pt}
+
+  \begin{minipage}[b]{0.35\linewidth}\centering
+    $ S(n) = \frac{1}{(1 - p) + \frac{p}{n}} $ \\
+    \vspace{15pt}
+    Amdhal's law \\
+  \end{minipage}\hfill
+  \begin{minipage}[b]{0.55\linewidth}\centering
+    $ S(n) = 1 - p + sp $ \\
+    \vspace{15pt}
+    Gustafson's law \\
+  \end{minipage}
+  
+\vspace{15pt}
+
+It is within this framework that we have sought to develop a data structure by adapting it to the context of graphic cards\index{Graphics cards}. This structure allows classic operations that appear in many algorithms and presents very interesting theoretical and technical characteristics. It also seeks to study a new way, that of using primitive elements of parallelism together in order to respond to the same problem and thus benefit from the additional computational power offered by such a practice.
+
+The problem can be summarized as follows: we have new hardware with a very simplified architecture that offers massive parallelism. We therefore want to make the most of the available performance by exploiting both these new architectures and the very large number of processors. It should be noted that these devices also propose very specific notions to which it is necessary to pay attention.
+
+\input{Chapters/GPU/ModelOfComputation}
+
+\input{Chapters/GPU/GPUstuff}
+
+\input{Chapters/GPU/Design}

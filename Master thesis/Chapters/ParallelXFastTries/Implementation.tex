@@ -1,0 +1,20 @@
+
+\section{Implementation}
+
+We will come back to some points linked to these data structures which seem for us important. In practice, LSMs\index{LSM} are way easier to implement than X-fast tries\index{X-fast trie}.
+
+\subsection{X-fast trie}
+
+We started by looking to see if there was any work on how to make x-fast tries\index{X-fast trie} concurrent\index{Concurrent} and we did not come across any results in this direction. So we tried to do what we could to solve the problem.
+
+In practice, making the data structure concurrent\index{Concurrent} does not seem to be an impossible task even if it is somewhat difficult and much attention must be paid to it. We started by making ``atomic'' the internal nodes of the tree, i.e. if two threads try to insert the same node into the tree, the second will necessarily apply the procedure of merging (upsert) on the data it was in charge of and the one previously inserted. The merge procedure is the same as the node update procedure, atomically replaced in order to keep the key of the minimum and maximum element of the whole subtree.
+
+Note that node updating plays a very important role in this concurrent\index{Concurrent} problem. Indeed, when one wishes to insert a node at the level of the leaves, one wants to have the smallest interval of values which exists and which contains the key of the new element. This avoids having to go through too many elements and therefore minimises the concurrency\index{Concurrent} problems there, by minimising the time spent there. The first step is to insert the element with its closest neighbors into the data structure. This avoids searching for an element that does not yet exist in the leaves but is described in the intermediate nodes.
+
+Now all that remains is to correct it and update its neighbours to indicate its existence. The same procedure is always followed until the situation is resolved. The aim is to reduce the interval while it is possible. We update the predecessor and successor values of the node we want to insert. We make a ``compare and swap''\index{Compare and swap} on the previous node to put ourselves as successor, idem for the next one, we modify its predecessor. If both succeed, then we're done. Otherwise, the procedure is repeated again. Boundary and degenerate cases are limited by the fact that the structure provides the smallest interval ab initio.
+
+\subsection{LSM\index{LSM}}
+
+We tried to obtain the LSM\index{LSM} source code from the authors, who politely declined our request. We have therefore sought to replicate it based on the description made in their article which is nevertheless sufficiently clear and precise. We used the same two primitives to sort our data and merge dictionaries. And we hope we have provided an implementation that we feel is relatively fair and sufficiently close to what they have done. The structure being very simple, variations on possible implementations should be minor.
+
+One of the key points of this structure is its inherent sequentiality\index{Sequential}. It seems difficult to propose a concurrent\index{Concurrent} version or, at least, to have something effective. We have to wait until the treatment between two levels is completely done before we can do anything else. As there are also very few levels in the structure, a very huge contention will be observed on the first levels making it essentially serialized. It was also easier to use two buffers to merge our data, as suggested in the original paper. So we work on a single block and on only 16 warps out of 32 available. Indeed, the library we use to sort requires some ``shared'' space (linked to a block) that we did not have enough to support 32 warps per block.

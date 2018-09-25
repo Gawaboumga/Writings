@@ -1,0 +1,22 @@
+
+\section{Hardware}
+
+All experiments were performed on the same computer. This nearly last generation material made it possible to benefit from the lastest innovations, in particular those related to the principle of election in the warps. Here are described the components:
+
+\begin{table}[!ht]
+\centering
+\caption{Components}
+\begin{tabular}{lll}
+Hardware    &                                 &  \\
+GPU         & GTX 1050 ti                     &  \\
+CPU         & AMD Ryzen 5 1600                &  \\
+Memory      & G.SKILL Ripjaws V Series 2x8 GB &  \\
+SSD         & Samsung SSD 850 EVO 250GB       &  \\
+Motherboard & ASRock AB350M Pro4              & 
+\end{tabular}
+\end{table}
+
+In practice, this graphics card offers compute capabilities 6.1 with 6 multiprocessors consisting of:
+128 CUDA cores for arithmetic operations, 32 special function units for single-precision floating-point transcendental functions, and 4 warp schedulers. Each multiprocessor has a shared memory of 96KB (divided into registers and shared data).
+There is also a L1 cache for each multiprocessor and a L2 cache shared by all multiprocessors that is used to cache accesses to local or global memory, including temporary register spills.\\
+All this can offer, in theory, up to 2 TFLOPS with a global memory bandwidth of 112GB/s. In practice, the performances are often lower than the theoretical ones announced by the manufacturer.

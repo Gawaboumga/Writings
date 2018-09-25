@@ -1,0 +1,37 @@
+\documentclass[12pt]{article}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (25.6,-30.2) circle (3);
+\draw (25.6,-30.2) node {$q$};
+\draw [black] (24.277,-27.52) arc (234:-54:2.25);
+\draw (25.6,-22.95) node [above] {
+    \begin{tabular}{c}
+    $ Identifier, \epsilon / Identifier $ \\
+    $ Constant, \epsilon / Constant $ \\
+    $ +, \epsilon / + $ \\
+    $ *, \epsilon / * $ \\
+    \end{tabular}
+};
+\fill [black] (26.92,-27.52) -- (27.8,-27.17) -- (26.99,-26.58);
+\draw [black] (26.923,-32.88) arc (54:-234:2.25);
+\draw (25.6,-37.45) node [below] {
+    \begin{tabular}{c}
+    $ \epsilon, Exp + Exp / Exp $ \\
+    $ \epsilon,  Exp * Exp / Exp $ \\
+    $ \epsilon, Identifier / Exp $ \\
+    $ \epsilon, Constant / Exp $ \\
+    \end{tabular}
+};
+\fill [black] (24.28,-32.88) -- (23.4,-33.23) -- (24.21,-33.82);
+
+\draw [thick, ->] (19.6,-30.2) -- (22.6,-30.2);
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}

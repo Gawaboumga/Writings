@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{longtable}
+ 
+\begin{document}
+ 
+\begin{center}
+\begin{tabular}{lll} 
+(1) & $S$ & $\rightarrow A$ \\ 
+(2) &     & $\rightarrow B$ \\ 
+(3) & $A$ & $\rightarrow a$ \\ 
+(4) & $B$ & $\rightarrow B$ \\ 
+(5) & $C$ & $\rightarrow c$ \\ 
+\end{tabular}
+\end{center}
+
+\end{document}

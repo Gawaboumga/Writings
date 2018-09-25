@@ -1,0 +1,36 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (15.2,-27.8) circle (3);
+\draw (15.2,-27.8) node {$q_0$};
+\draw [black] (28.7,-19) circle (3);
+\draw (28.7,-19) node {$q_1$};
+\draw [black] (28.7,-35.5) circle (3);
+\draw (28.7,-35.5) node {$q_2$};
+\draw [black] (46,-19) circle (3);
+\draw (46,-19) node {$q_3$};
+\draw [black] (46,-19) circle (2.4);
+\draw [black] (46,-35.5) circle (3);
+\draw (46,-35.5) node {$q_4$};
+\draw [black] (17.71,-26.16) -- (26.19,-20.64);
+\fill [black] (26.19,-20.64) -- (25.24,-20.66) -- (25.79,-21.49);
+\draw (22.89,-23.9) node [below] {$a$};
+\draw [black] (17.81,-29.29) -- (26.09,-34.01);
+\fill [black] (26.09,-34.01) -- (25.65,-33.18) -- (25.15,-34.05);
+\draw (21.01,-32.15) node [below] {$a$};
+\draw [black] (31.7,-35.5) -- (43,-35.5);
+\fill [black] (43,-35.5) -- (42.2,-35) -- (42.2,-36);
+\draw (37.35,-35) node [above] {$b$};
+\draw [black] (31.7,-19) -- (43,-19);
+\fill [black] (43,-19) -- (42.2,-18.5) -- (42.2,-19.5);
+\draw (37.35,-19.5) node [below] {$b$};
+\draw [thick,->] (9.2, -27.8) -- (12.2, -27.8);
+\end{tikzpicture}
+\end{center}
+
+\end{document}

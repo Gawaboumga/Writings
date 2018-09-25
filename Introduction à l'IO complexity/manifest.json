@@ -1,0 +1,44 @@
+{
+    "children":[
+        {
+            "text":"contexte.md",
+            "title":"Contexte",
+            "slug":"contexte",
+            "object":"extract"
+        },
+        {
+            "text":"external-memory-model.md",
+            "title":"External Memory Model",
+            "slug":"external-memory-model",
+            "object":"extract"
+        },
+        {
+            "text":"algorithmes-de-base.md",
+            "title":"Algorithmes de base",
+            "slug":"algorithmes-de-base",
+            "object":"extract"
+        },
+        {
+            "text":"problemes-selectionnes.md",
+            "title":"Problèmes sélectionnés",
+            "slug":"problemes-selectionnes",
+            "object":"extract"
+        },
+        {
+            "text":"cache-oblivious.md",
+            "title":"Cache oblivious",
+            "slug":"cache-oblivious",
+            "object":"extract"
+        }
+    ],
+    "ready_to_publish":true,
+    "type":"ARTICLE",
+    "object":"container",
+    "slug":"introduction-a-li-o-complexite",
+    "licence":"CC BY-NC",
+    "version":2.1,
+    "conclusion":"conclusion.md",
+    "title":"Introduction à l'I\/O complexité",
+    "introduction":"introduction.md",
+    "description":"Brève introduction à l'I\/O complexité, principalement axée sur le modèle de calcul \"EM\" et avec une rapide vision sur la notion d'obliviousness."
+}

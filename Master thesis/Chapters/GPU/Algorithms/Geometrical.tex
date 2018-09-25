@@ -1,0 +1,32 @@
+\section{Geometric problems}
+
+A classical set of problems and algorithms are the geometric ones. They appear in a wide range of problems, often in somewhat concealed forms, but offer frequently elegant solutions. Many of the sequential algorithms are based on divide-and-conquer and lead in a relatively straightforward manner to efficient parallel algorithms.
+
+\subsection{Interval stabbing counting and 1-D range counting}
+
+Given $I$, a set of intervals, and $S$, a set of points on the real line, with $|I| + |S| = N$. The \textit{interval stabbing counting} problem consists to compute the number of intervals containing each point of S. The \textit{1-D range counting problem}, is the opposite, to compute the number of points contained in each interval.
+
+These two problems can be solved in $O(\text{sort}_{p}(N))$ I/Os. But, in the case where the inputs are already sorted by their value for $S$ and by the end of the interval for $I$, interval stabbing counting is in $O(\frac{N}{PB})$ and the 1-D range counting is bounded by $O(\text{sort}_{p}(|I|) + \frac{|S|}{PB})$.
+
+The idea to count the number of intervals containing a point is to assign a weight of $1$ to every left interval endpoint, a weight of $-1$ to every right one and $0$ to every point in $S$. And then apply a prefix sum in $O(\frac{N}{PB})$.
+
+On the other hand, compute the number of points within the intervals is the difference of the prefix sums of its endpoints after assigning a weight of 1 to every point and 0 to every interval endpoint. The two prefix sums are trivial, but the difference is not. We must first extract the set of interval endpoints from the point list using a compaction operation and sort the resulting list to store the endpoints of each interval consecutively; this operation takes $O(\text{sort}_{p}(|I|) + \frac{|S|}{PB})$. They also came up with an optimal algorithm in $O(\frac{(N + K)}{PB} + \log P)$ when $P \leq min(\frac{N}{B \log^{2}N}, \frac{N}{B^{2}})$ and where $K$ are the queries but which is way more complex~\cite{ajwani2011optimal}.
+
+\subsection{2-D weighted dominance counting}
+
+The problem is posed as follows: Given a set of points ($q \in S$), each of them associated with a weight, the goal is to compute the total weight of all points 2-dominated by each point in S. The 2-D dominance is defined as such: given two points in the plane $q_{1} = (x_{1}, y_{1})$ and $q_{2} = (x_{2}, y_{2})$, $q_{1}$ 1-dominates $q_{2}$ if $y_{1} \geq y_{2}$ and 2-dominates if it both 1-dominates and $x_{1} \geq x_{2}$.
+
+This problem looks quite surprising, but some others reduced to it~\cite{atallah1986sweeping}. The problem, by it-self, can be solved using $O(\text{sort}_{p} (N))$ I/Os in the PEM model.
+
+The first step of the algorithm consists to sort the points along their x-coordinates and partition this collection into vertical slabs $\sigma_{i}$, each containing $\frac{N}{P}$ points. Then, in parallel, we sort the slabs along the y-axis, we get a new list $U(\sigma_{i})$ and we associate to each one two new weights: $W^{1}_{\sigma_{i}}(q)$ and $W^{2}_{\sigma_{i}}(q)$ which are the total weights of the points within $\sigma_{i}$ that $q$ 1- and 2-dominates, respectively.
+It then remains to group up the information. The obtained lists can be merged together using a d-way cascading merge procedure where we have a d-ary tree where the leaves are the $\sigma_{i}$. At each tree node $v$, we compute a new y-sorted list $U(v)$ which is the result of the subnodes. While we are doing this operation, we can also compute the new weights $W^{1}_{v}(q)$ and $W^{2}_{v}(q)$ since those can be expressed as the sum of their predecessors in the merged lists. At the end, the root $r$ of the tree has $U(r) = S$ and $W^{2}_{r}(q)$ is the total weight of the dominated points~\cite{ajwani2010geometric}.
+
+\subsection{Distribution sweeping}
+
+In computational geometry, a sweep line or plane sweep is an algorithmic tool which is used to solve many problems. One can imagine that a line is swept accross the plane and stops at some points. The idea is to construct the solution bit by bit while we meet new points to finally produce our solution. This concept has been extended to parallel problems in 1985 and it is more well-knowed as distributed sweeping~\cite{atallah1986sweeping}. It can be rougly expressed as subdividing recursively the plane into slabs such that they contain about the same number of elements, with $min(\sqrt{\frac{N}{P}}, \frac{M}{B})$. But this framework may be hard to implement due to parallelism of line sweeping and due to the expected good load balancing if we consider output sensitive algorithms~\cite{ajwani2013empirical}.
+
+D. Ajwani, N. Sitchinava and N. Zeh propose an optimal algorithm to solve three problems: \textit{Orthogonal line segment intersection}, \textit{Batched orthogonal range reporting} and \textit{Rectangle intersection reporting}~\cite{ajwani2011optimal}. The optimal complexity achieved is in $O(\text{sort}_{p}(N) + \frac{K}{PB})$ but is really complex. It can be easier to duplicate horizontal segments which cross different partitions and then apply the standard algorithm, this would lead to a $O(\text{sort}_{p}(N + K))$ where $K$ is the number of duplicates segments.
+
+To realize such results, they extended the external memory data structure called \textit{Buffer Tree} which provide amortized complexity for queries and which can be used as a priority queue~\cite{arge2003buffer}. This structure can be seen a specialization of the B-trees, the classical balanced trees, as R-trees are for range queries. They assign $\Theta(\frac{1}{PB} \log_{\frac{M}{B}} \frac{N}{B})$ credits to each operations and modify the structure to maintain the invariant when the buffer is full, it is then emptied and the sub-nodes are impacted~\cite{sitchinava2012parallel}.
+
+They also propose a solution to the problems of: \textit{Lower envelope of a set of non-intersecting 2-D line segments}, \textit{Convex hull of a 2-D point set}, and \textit{maxima of a 3-D point set}. All of these are in $O(\text{sort}_{p} (N))$, provided $P \leq \frac{N}{B^{2}}$ and $M = B^{O(1)}$. Convex hull simply consists to subdivide the problem into pair wise convex hull problems through Graham Scan technique and then compose the solution finding the tangent~\cite{atallah1988parallel}. The other problems can be solved using a technique close to 2-D weighted dominance through clever change in the labels~\cite{atallah1986efficient}.

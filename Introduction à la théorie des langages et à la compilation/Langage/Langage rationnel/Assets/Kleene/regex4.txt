@@ -1,0 +1,29 @@
+\documentclass[12pt]{article}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (21.5,-31) circle (3);
+\draw (21.5,-31) node {$q_{0}$};
+\draw [black] (52.7,-31) circle (3);
+\draw (52.7,-31) node {$q_{3}$};
+\draw [black] (52.7,-31) circle (2.4);
+\draw [black] (51.377,-28.32) arc (234:-54:2.25);
+\draw (52.7,-23.75) node [above] {$1$};
+\fill [black] (54.02,-28.32) -- (54.9,-27.97) -- (54.09,-27.38);
+\draw [black] (24.5,-31) -- (49.7,-31);
+\fill [black] (49.7,-31) -- (48.9,-30.5) -- (48.9,-31.5);
+\draw (37.1,-31.5) node [below] {$1 + 0.0$};
+\draw [black] (20.177,-28.32) arc (234:-54:2.25);
+\draw (21.5,-23.75) node [above] {$1.1 + 0.0.1$};
+\fill [black] (22.82,-28.32) -- (23.7,-27.97) -- (22.89,-27.38);
+
+\draw [thick, ->] (15.5,-31) -- (18.5,-31);
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}

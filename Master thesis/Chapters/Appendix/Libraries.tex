@@ -1,0 +1,12 @@
+
+\section{Libraries}
+
+To develop our software and experiments, we also used three main libraries:
+
+\begin{itemize}
+    \item Catch (2.2.1)~\cite{CATCH} is a modern, C++-native, header-only, test framework for unit-tests, TDD and BDD - using C++11, C++14, C++17 and later. It offers many test features and is very simple to use.
+    \item hayai~\cite{HAYAI} is a C++ framework for writing benchmarks for pieces of code. This library has been very useful for us to collect the performances and timings of our experiments. It also proposes to extract useful information such as statistical moments or quantiles.
+    \item cuda-api-wrappers~\cite{CUDAWRAPPER}, this library of wrappers around the Runtime API of CUDA is intended to allow us to embrace many of the features of C++ (including some C++11) for using the runtime API - but without reducing expressivity or increasing the level of abstraction (as in, e.g., the Thrust library) in more C++-idiomatic ways.
+\end{itemize}
+
+We were somewhat disappointed not to find a common library that implemented standard algorithms (copy, fill, ...) with warp or block granularity. So we also propose a framework which aims to fill these defects. We also put the code related to X-fast tries in free access in order to avoid people having to rewrite the same data structure and thus save development time. We also use two other libraries for the LSM implementation, namely CUB\footnote{https://nvlabs.github.io/cub/} and moderngpu\footnote{https://github.com/moderngpu/moderngpu/wiki}.

@@ -1,0 +1,28 @@
+
+\section{X-fast trie}
+
+In summary, X-fast trie\index{X-fast trie} can be seen as a kind of binary tree where each level corresponds to a set of values sharing the same common prefix. Traditionally, the left child corresponds to the addition of a 0 to the prefix and the right, to a 1. There are thus $O(\log u)$ levels in the trie. All the elements are stored at the leaves (conceptually sorted) and the internal nodes are stored only if leaves exist in their subtree. The key idea of the data structure is to represent each level through a hash table\index{Hash table} which will grant operations in $O(1)$ w.h.p.. Not only the presence of a prefix is stored but also the minimum/maximum of the subtree.
+
+This data structure is intended to be used as an ordered dictionary\index{Dictionnary} with those five operations but can also be used as a heap or priority queue:
+
+\begin{itemize}
+    \item Find(k): find the value associated with the given key.
+    \item Insert(k, v): insert the given key/value pair.
+    \item Delete(k): remove the key/value pair with the given key (if it exists).
+    \item Predecessor(k): find the key/value pair with the largest key less than or equal to the given key.
+    \item Successor(k): find the key/value pair with the smallest key larger than or equal to the given key.
+\end{itemize}
+
+\subsubsection{Find:}
+When we search for one item, we only need to perform one query on the leaf-level to get our answer. This allows access to data in $O(1)$ which is quite interesting.
+\subsubsection{Insert:}
+When we want to insert a new key/value pair in the trie, we must do several operations:
+First, we search for the lowest level which shares a common prefix with our element to insert. The path is then completed to lead to the leaf and the key/value pair is inserted at the bottom while updating a double-linked list gathering the leaf elements. Finally, the upper nodes are updated to take into account the new key as described for the predecessor/successor operations.
+\subsubsection{Delete:}
+We delete the element at the very bottom and move up the path to delete all prefixes that have no children other than the curent element you want to remove. We also need to update the predecessor/successor information in internal nodes in accordance.
+\subsubsection{Predecessor/Successor:}
+In order to find the predecessor of a key in the trie, we must first look for the node that shares the largest common prefix with our query. Then, it is enough to refer to the value pointed by this node. The whole idea lies in this fact that each node keeps, if necessary, either the largest element of the subtree if there is no right child, or the smallest if there is no left child. Since we know we will be looking for the lowest node in the trie every time. Depending on the search for the successor or predecessor, it will sometimes be necessary to access the next item in the doubly chained list of elements at the bottom level, in case there is another branch that does not belong to the subtree that we are browsing.
+
+We point out that only the find queries are $O(1)$ operations, insertions and deletions require in the worst case $O(\log u)$ since we would need to either insert or destroy each intermediate nodes. Predecessor and successor queries can be made in $O(\log \log u)$ if we perform a binary search on the levels of the trie.
+
+We will end by expressing that, on a theoretical point of view, it is easy to parallelize the data structure by making queries on each level independently and then gathering the results or updating the nodes if required. From a practical point of view, this will turn somewhat more complicated. We will return very largely to these problems in a future chapter$^{[\ref{PARALLELXFASTTRIE}]}$.

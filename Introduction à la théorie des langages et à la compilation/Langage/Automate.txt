@@ -1,0 +1,29 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{%
+  arrows,%
+  chains,%
+  positioning,%
+  scopes}
+
+\begin{document}
+
+
+\begin{tikzpicture}[node distance=0mm, every node/.style= 
+{draw,minimum size=8mm}]
+\node (deb) {Finite automaton};
+{ [start chain=1]
+\node [on chain] at (3,-2){$a$};
+\node [on chain] {$a$};
+\node [on chain] {$b$};
+\node [on chain] {$b$};
+}
+
+\begin{scope}[->, thick, =latex']
+	\draw (deb.east) -| (1-1);
+\end{scope}
+
+%\fill (3, -1.62) -- (2.8, -1.42) -- (3.2, -1.42);
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,30 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (48.1,-29.1) circle (3);
+\draw (48.1,-29.1) node {$even$};
+\draw [black] (27.2,-29.1) circle (3);
+\draw (27.2,-29.1) node {$odd$};
+\draw [black] (27.2,-29.1) circle (2.4);
+\draw [black] (29.633,-27.353) arc (120.27338:59.72662:15.902);
+\fill [black] (45.67,-27.35) -- (45.23,-26.52) -- (44.72,-27.38);
+\draw (37.65,-24.68) node [above] {$1$};
+\draw [black] (45.664,-30.843) arc (-59.80706:-120.19294:15.935);
+\fill [black] (29.64,-30.84) -- (30.08,-31.68) -- (30.58,-30.81);
+\draw (37.65,-33.5) node [below] {$1$};
+\draw [black] (25.877,-26.42) arc (234:-54:2.25);
+\draw (27.2,-21.85) node [above] {$0$};
+\fill [black] (28.52,-26.42) -- (29.4,-26.07) -- (28.59,-25.48);
+\draw [black] (46.777,-26.42) arc (234:-54:2.25);
+\draw (48.1,-21.85) node [above] {$0$};
+\fill [black] (49.42,-26.42) -- (50.3,-26.07) -- (49.49,-25.48);
+\draw [thick,->] (21.2, -29.1) -- (24.2, -29.1);
+\end{tikzpicture}
+\end{center}
+
+\end{document}

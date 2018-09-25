@@ -1,0 +1,16 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{longtable}
+ 
+\begin{document}
+ 
+\begin{center}
+\begin{tabular}{lll} 
+(1) & $A$  & $\rightarrow \beta_{1} A'$ \\ 
+(2) &      & $\rightarrow \beta_{2} A'$ \\ 
+(3) & $A'$ & $\rightarrow \alpha_{1} A'$ \\ 
+(4) &      & $\rightarrow \alpha_{2} A'$ \\ 
+\end{tabular}
+\end{center}
+
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{longtable}
+ 
+\begin{document}
+ 
+\begin{center}
+\begin{tabular}{lll} 
+(1) & $A$ & $\rightarrow aaa$ \\ 
+(2) &     & $\rightarrow Bbb$ \\ 
+(3) &     & $\rightarrow Cdd$ \\ 
+(4) & $B$ & $\rightarrow b$ \\ 
+(5) & $C$ & $\rightarrow c$ \\ 
+(6) &     & $\rightarrow \epsilon$ \\ 
+\end{tabular}
+\end{center}
+
+\end{document}

@@ -1,0 +1,103 @@
+\chapter{Introduction}
+\setcounter{page}{1}
+
+\section{Background and objectives of the thesis}
+
+In recent years, we have observed a certain stagnation in the computing power of our processors. Moore's law is no longer observed as a result of technical and material issues that are increasingly difficult to overcome; we are also approaching physical limits of our creation. A proposed solution to these problems was the introduction of multi-core processors. However, taking full advantage of the power offered by these new devices is challenging and new algorithms need to be developed since it is not always trivial to transform a sequential\index{Sequential} algorithm in a parallel one.
+
+Even more recently, the idea came up of using graphics cards\index{Graphics cards} which offer high parallelization capacity at a very low cost. Further research has been carried out in this direction to find out the theoretical limits of such devices and what could be done to maximize our implementation.
+
+In this perspective, we will try to adapt an existing data structure to this new programming paradigm. We will see what are the main advantages and disadvantages of this approach and for which purposes it can be used. We will also consider ways to make it highly concurrent\index{Concurrent} and therefore take full advantage of the computational power offered by graphics cards.
+
+We therefore propose a trip to the world of graphic cards\index{Graphics cards} during which we will address many themes related to this environment. We will start by explaining the more general context and how such devices work, then we will investigate how data can be accessed through their natural parallelism. We can then focus on the data structure we want to adapt to this paradigm, first in a sequential\index{Sequential} fashion. We will then return to one of its main components in order to resolve one of the problems related to the concurrency\index{Concurrent} of such a data structure.
+
+\section{Structure of the thesis}
+
+In this work, we will begin by specifying the context in a more precise way and we will define the objectives targeted and pursued. We will then retrace a brief history of computational models linked to parallelism and, in particular, those that are easily exploitable in order to study the complexity of algorithms on graphic cards. Next, we will briefly explain how current graphic cards\index{Graphics cards} work, the abstractions they provide and the aspects to which attention should be paid. We will continue by presenting a synthesis of different results obtained for a particular computation model.
+
+We will then start on the main interest of this work which consists of adapting a data structure to this new paradigm and we will discuss briefly its origins. We will first present the capabilities of such a structure in a sequential\index{Sequential} framework, which will simplify reasoning and implementation. This data structure allows classic operations related to trees: insertions, deletions, search, predecessor and successor queries and therefore corresponds to the ``dictionary''\index{Dictionnary} family. It can also be used as a heap or a priority queue.
+
+But first, we will tackle another theme which is intrinsically linked to data structures; the way of accessing data by its patterns plays a crucial role in its overall efficiency and we will see that the graphics card\index{Graphics cards} model offers a certain range of possibilities. We will see that some accesses have very poor raw characteristics, but which, if exploited intelligently, can ultimately remain competitive with others.
+
+We will then discuss the different ways to implement this data structure and its intrinsic difficulties. Once the implementations are complete, we will be able to present the effectiveness of the various operations offered by this structure in comparison to another fair and classical data structure.
+
+Then, we will come back to an essential component of this data structure that are hash tables\index{Hash table}. We will try to compare different possible implementations and their relative performance in a highly concurrent\index{Concurrent} framework. Finally, we will adapt our data structure to incorporate elements of concurrence\index{Concurrent} and discuss opportunities for improvement and potential applications. Finally, we will propose a comparison of the performances proposed by such a structure in comparison with another, developed recently, and proposing the same characteristics of dictionnary\index{Dictionnary}.
+
+It will then only be necessary to provide a summary of the various conclusions that we have reached with more details in their respective chapters. This will be the opportunity to provide a final conclusion on the desirability and place of such a data structure.
+
+\section{Contributions}
+
+\noindent
+In the following, we try to group our main contributions in a single list in order to present the general interest of the work and its associated advancements:
+\vspace{1cm}
+\begin{enumerate}
+    \item A state of the art gathering many results obtained for the PEM computation model with detailed explanations for some algorithms or complexity$^{[\ref{PEM}]}$.
+    \item A brief study of memory behaviours according to access patterns on GPU$^{[\ref{Accesses}]}$.
+    \item An adaptation of an existing data structure within the framework of graphic cards\index{Graphics cards}$^{[\ref{XFASTTRIEIMPLEMENTATION}]}$.
+    \item A study of several implementations for concurrent\index{Concurrent} hash tables\index{Hash table} on GPU$^{[\ref{Hash table}]}$.
+    \item Adaptation of the X-fast tries to concurrent\index{Concurrent} framework$^{[\ref{PARALLELXFASTTRIE}]}$.
+    \item Analysis of the concurrent\index{Concurrent} X-fast tries on GPU$^{[\ref{PARALLELXFASTTRIERESULTS}]}$.
+\end{enumerate}
+
+\newpage
+\section{Notation}
+
+The next list describes several symbols that will be later used within the body of the document. We will clarify in due course whether some symbols require further details.
+
+\vspace{5mm}
+
+{
+
+\begin{tabular}{cp{130mm}}
+  Symbol & Meaning \\
+  \hline \\
+  $N$ & number of elements, problem size. \\
+  & \\
+  $P$ & number of processors. \\
+  & \\
+  $M$ & size of the local cache\index{Cache}. \\
+  & \\
+  $B$ & size of memory block\index{Block} transfered between global memory and local cache. \\
+  & \\
+  $w$ & word size in word-RAM computation model. \\
+  & \\
+  $u$ & size of the universe, cardinality of a bounded set of integers. \\
+  & \\
+  $V$ & number of vertices of a graph. \\
+  & \\
+  $E$ & number of edges of a graph. \\
+  & \\
+  $\lceil x \rceil$ & ceil function, smallest integer larger than $x$. \\
+  & \\
+  $\log_{b} x$ & base-$b$ logarithm of $x$; if $b$ is not specified, we use $b = 2$. \\
+  & \\
+  $n!$ & Factorial function. \\
+  & \\
+  $\binom{n}{k}$ & Binomial coefficient. \\
+  & \\
+  $f(n) = O(g(n))$ & the complexity of $f(n)$ is upper bounded by $g(n)$ as $n \rightarrow \infty$. \\
+  & Formally, if it exists $c$ and $n_{0}$ such that $|f(n)| \leq c|g(n)| ~ \forall n \geq n_{0}$ \\
+  & \\
+  $f(n) = \Omega(g(n))$ & the complexity of $f(n)$ is lower bounded by $g(n)$ as $n \rightarrow \infty$. \\
+  & Formally, if it exists $c$ and $n_{0}$ such that $|f(n)| \geq c|g(n)| ~ \forall n \geq n_{0}$ \\
+  & \\
+  $f(n) = \Theta(g(n))$ & the complexity is bounded both above and below by $g(n)$ as $n \rightarrow \infty$. \\
+  & Formally, if it exists $c_{1}$, $c_{2}$ and $n_{0}$ such that $c_{1}|g(n)| \leq f(n) \leq c_{2}|g(n)| ~ \forall n \geq n_{0}$ \\
+  & \\
+  $ \text{scan}(N)$ & optimal number of I/Os to scan $N$ items. \\
+  & \\
+  $ \text{sort}(N)$ & optimal number of I/Os to sort $N$ items. \\
+  & \\
+  CPU & Computing Processing Unit. \\
+  & \\
+  GPU & Graphics Processing Unit. \\
+  & \\
+  w.h.p. & with high probability. \\
+\end{tabular}
+
+}
+\clearpage
+
+%%%%%%%%%%%%%%%%
+%\part{Si du moins votre travail est divisé en parties}
+%%%%%%%%%%%%%%%%
