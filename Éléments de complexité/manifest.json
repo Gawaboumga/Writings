@@ -1,0 +1,44 @@
+{
+  "type" : "TUTORIAL",
+  "object" : "container",
+  "slug" : "elements-de-complexite",
+  "title" : "Éléments de complexité",
+  "introduction" : "introduction.md",
+  "conclusion" : "conclusion.md",
+  "children" : [ {
+    "object" : "extract",
+    "slug" : "definition",
+    "title" : "Définition",
+    "text" : "definition.md"
+  }, {
+    "object" : "extract",
+    "slug" : "modele-de-calcul",
+    "title" : "Modèle de calcul",
+    "text" : "modele-de-calcul.md"
+  }, {
+    "object" : "extract",
+    "slug" : "notations",
+    "title" : "Notations",
+    "text" : "notations.md"
+  }, {
+    "object" : "extract",
+    "slug" : "analyse-de-complexite",
+    "title" : "Analyse de complexité",
+    "text" : "analyse-de-complexite.md"
+  }, {
+    "object" : "extract",
+    "slug" : "tri",
+    "title" : "Tri",
+    "text" : "tri.md"
+  }, {
+    "object" : "extract",
+    "slug" : "aller-plus-loin",
+    "title" : "Aller plus loin",
+    "text" : "aller-plus-loin.md"
+  } ],
+  "version" : 2.1,
+  "licence" : "CC BY-NC",
+  "description" : "La complexité joue un rôle central en Informatique. Mais que se cache-t-il exactement derrière ce terme ? Dans cet article, nous tenterons de dresser un portrait de la théorie sous-jacente.",
+  "type" : "ARTICLE",
+  "ready_to_publish" : true
+}
