@@ -1,0 +1,29 @@
+{
+  "type" : "TUTORIAL",
+  "object" : "container",
+  "slug" : "selection-et-tri-partiel",
+  "title" : "Sélection et tri partiel",
+  "introduction" : "introduction.md",
+  "conclusion" : "conclusion.md",
+  "children" : [ {
+    "object" : "extract",
+    "slug" : "orderstatistics",
+    "title" : "OrderStatistics",
+    "text" : "orderstatistics.md"
+  }, {
+    "object" : "extract",
+    "slug" : "quicksort",
+    "title" : "Quicksort",
+    "text" : "quicksort.md"
+  }, {
+    "object" : "extract",
+    "slug" : "median-of-medians",
+    "title" : "Median of medians",
+    "text" : "median-of-medians.md"
+  } ],
+  "version" : 2.1,
+  "licence" : "CC BY-NC",
+  "description" : "Fournir les X meilleurs résultats pour une recherche ou identifier des éléments-clefs dans la distribution des données sont des problèmes très orientés business mais qui révèlent quelques surprises.",
+  "type" : "ARTICLE",
+  "ready_to_publish" : true
+}
